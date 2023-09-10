@@ -1,22 +1,27 @@
 typeset -U path cdpath fpath manpath
 
+# Enable completion
 autoload -U compinit && compinit
-
-# Add plugins
-if [ -f $ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-  source $ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-else
-  echo "Missing plugin: zsh-autosuggestions"
-fi
-
-if [ -f $ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-  source $ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-else
-  echo "Missing plugin: zsh-syntax-highlighting"
-fi
 
 # Use emacs keymap as the default.
 bindkey -e
+
+# Add plugins
+zsh_autosuggestions_path=$ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [ -f $zsh_autosuggestions_path ]; then
+  source $zsh_autosuggestions_path
+else
+  echo "Missing plugin: zsh-autosuggestions"
+fi
+unset zsh_autosuggestions_path
+
+zsh_syntax_highlighting_path=$ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -f $zsh_syntax_highlighting_path ]; then
+  source $zsh_syntax_highlighting_path
+else
+  echo "Missing plugin: zsh-syntax-highlighting"
+fi
+unset zsh_syntax_highlighting_path
 
 # History options
 HISTFILE=$ZDOTDIR/zsh_history
@@ -38,4 +43,4 @@ alias vi='nvim'
 alias vim='nvim'
 alias g='git'
 alias cfg='cd /etc/nixos'
-alias ucfg='cd /etc/nixos/apps'
+alias cfgu='cd /etc/nixos/apps'

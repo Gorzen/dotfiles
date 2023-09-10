@@ -462,6 +462,10 @@ local servers = {
   },
 }
 
+-- Setup Haskell Language Server through simple nvim-lspconfig
+-- mason.nvim uses ghcup which is not really supported on NixOS
+require'lspconfig'.hls.setup{}
+
 -- Setup neovim lua configuration
 require('neodev').setup()
 

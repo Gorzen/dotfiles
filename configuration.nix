@@ -178,6 +178,13 @@
     nnn
     feh
     libsForQt5.qt5.qtgraphicaleffects # Needed by SDDM Sugar Candy theme
+    gnumake
+    ncurses
+    curl
+    ghc
+    cabal-install
+    stack
+    haskell-language-server
   ];
 
   environment.shells = [ pkgs.zsh ];

@@ -1,6 +1,5 @@
 typeset -U path cdpath fpath manpath
 
-
 autoload -U compinit && compinit
 
 # Add plugins

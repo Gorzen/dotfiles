@@ -108,6 +108,12 @@
 
   hardware.opengl.enable = true;
 
+  # Enable compositor (picom) to improve window painting
+  services.picom = {
+    enable = true;
+    vSync = true;
+  };
+
   fonts = {
     enableDefaultFonts = true;
     fonts = with pkgs; [

@@ -11,6 +11,9 @@
       <home-manager/nixos>
     ];
 
+
+  # TODO: Change to systemd-boot and UEFI
+
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   # boot.loader.grub.efiSupport = true;
@@ -19,10 +22,10 @@
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
-  # networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -39,64 +42,78 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  # Enable the X11 windowing system. In xorg.conf.d
-  services.xserver = {
-    enable = true;
-    layout = "ch";
-    xkbVariant = "fr";
-    xkbOptions = "eurosign:e,caps:escape";
-  };
-
-  # Adds the following configurations to xorg.conf. Warning: Loaded after xorg.conf.d
-  services.xserver.monitorSection = ''Option "PreferredMode" "2560x1440"'';
-  services.xserver.inputClassSections = [ ''
-    Identifier       "Keyboard catchall"
-    MatchIsKeyboard  "on"
-    Option           "AutoRepeat" "200 40"
-  '' ];
-
-
+  # Set environement variables
+  # Warning: This sets them for the root user as well but the goal is that it works even when not logging in through tty (e.g. Wayland)
   environment.variables = rec {
     EDITOR = "nvim";
-    VISUAL = "nvim";
+    VISUAL = "${EDITOR}";
+    TERMINAL = "wezterm";
+    TERM = "${TERMINAL}";
+    BROWSER = "brave";
 
     # XDG Base Directory
     XDG_CACHE_HOME = "$HOME/.cache";
     XDG_CONFIG_HOME = "$HOME/.config";
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_STATE_HOME = "$HOME/.local/state";
+    # Not officially in the specification
+    XDG_BIN_HOME = "$HOME/.local/bin";
+
+    PATH = [
+      "${XDG_BIN_HOME}"
+    ];
 
     # Declutter home directory. See: https://wiki.archlinux.org/title/XDG_Base_Directory
     # libx11
     XCOMPOSEFILE = "${XDG_CONFIG_HOME}/X11/xcompose";
     XCOMPOSECACHE = "${XDG_CACHE_HOME}/X11/xcompose";
     # zsh
-    ZDOTDIR = "$HOME/.config/zsh";
+    ZDOTDIR = "${XDG_CONFIG_HOME}/zsh";
   };
 
-  # Hyprland + wayland
-  #programs.hyprland = {
-  #  enable = true;
-  #  xwayland.enable = true;
-  #};
+  # Configure xserver
+  # Enable the X11 windowing system. In xorg.conf.d
+  services.xserver = {
+    enable = true;
+    layout = "ch";
+    xkbVariant = "fr";
+    xkbOptions = "eurosign:e,caps:escape";
+
+    # Adds the following configurations to xorg.conf. Warning: Loaded after xorg.conf.d
+    monitorSection = ''Option "PreferredMode" "2560x1440"'';
+    inputClassSections = [ ''
+      Identifier       "Keyboard catchall"
+      MatchIsKeyboard  "on"
+      Option           "AutoRepeat" "200 40"
+    '' ];
+
+    # Configure the display manager - sddm
+    displayManager.sddm = {
+      enable = true;
+      theme = "${(pkgs.fetchFromGitLab {
+        domain = "framagit.org";
+	owner = "MarianArlt";
+	repo = "sddm-sugar-candy";
+	rev = "2b72ef6c6f720fe0ffde5ea5c7c48152e02f6c4f";
+	hash = "sha256-XggFVsEXLYklrfy1ElkIp9fkTw4wvXbyVkaVCZq4ZLU=";
+      })}";
+    };
+
+    # Configure the window manager - XMonad
+    windowManager.xmonad = {
+      enable = true;
+      enableContribAndExtras = true;
+    };
+  };
 
   hardware.opengl.enable = true;
-
-  #services.picom.enable = true;
-
-  # Xmonad
-  services.xserver.windowManager.xmonad = {
-    enable = true; # Enable Xmonad
-    enableContribAndExtras = true; # To use Xmonad Contrib extensions
-    config = builtins.readFile ./apps/xmonad.hs;
-  };
-
 
   fonts = {
     enableDefaultFonts = true;
     fonts = with pkgs; [
       noto-fonts
       noto-fonts-emoji
+      nerdfonts
       fira-code
       fira-code-symbols
     ];
@@ -113,12 +130,17 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  # Enable sound with pipewire
+  services.pipewire = {
+    enable = true;
+    audio.enable = true; # Use pipewire as the primary sound server
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
+
+  # Enable zsh for system and users
+  programs.zsh.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.defaultUserShell = pkgs.zsh;
@@ -128,12 +150,9 @@
     shell = pkgs.zsh;
   };
 
-  programs.zsh.enable = true; # Configured using home-manager as not all options are in base NixOS
-
   # Home manager
   home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = false;
+    useGlobalPkgs = true; # Use packages configured at system level
     users.lulu2 = import ./home.nix;
   };
 
@@ -141,6 +160,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     zsh
+    git
     neovim
     htop
     wezterm
@@ -149,6 +169,8 @@
     vscodium
     dunst
     nnn
+    feh
+    libsForQt5.qt5.qtgraphicaleffects # Needed by SDDM Sugar Candy theme
   ];
 
   environment.shells = [ pkgs.zsh ];
@@ -173,6 +195,7 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  # If using virtualbox
   virtualisation.virtualbox.guest = {
     enable = true;
     x11 = true;
@@ -190,6 +213,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
 }
 

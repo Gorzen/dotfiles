@@ -1,0 +1,40 @@
+typeset -U path cdpath fpath manpath
+
+
+autoload -U compinit && compinit
+
+# Add plugins
+if [ -f $ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+  source $ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+else
+  echo "Missing plugin: zsh-autosuggestions"
+fi
+
+if [ -f $ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source $ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+  echo "Missing plugin: zsh-syntax-highlighting"
+fi
+
+# Use emacs keymap as the default.
+bindkey -e
+
+# History options
+HISTFILE=$ZDOTDIR/zsh_history
+HISTSIZE="1000000"
+SAVEHIST="1000000"
+
+setopt HIST_FCNTL_LOCK
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+unsetopt HIST_EXPIRE_DUPS_FIRST
+setopt SHARE_HISTORY
+setopt EXTENDED_HISTORY
+
+# Aliases
+alias ..='cd ..'
+alias ll='ls -l'
+alias v='nvim'
+alias vi='nvim'
+alias vim='nvim'
+alias g='git'

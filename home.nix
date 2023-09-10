@@ -11,5 +11,6 @@
     "wezterm/wezterm.lua".source = ./apps/wezterm.lua;
     "xmonad/xmonad.hs".source = ./apps/xmonad.hs;
     "git/config".source = ./apps/gitconfig;
+    "nvim/init.lua".source = ./apps/nvim.lua;
   };
 }

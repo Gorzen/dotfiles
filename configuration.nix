@@ -160,6 +160,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     zsh
+    gcc
     git
     neovim
     htop

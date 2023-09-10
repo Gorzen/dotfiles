@@ -10,5 +10,6 @@
     "zsh/.zshrc".source = ./apps/zshrc; # Has to match ZDOTDIR (should be ~/.config/zsh)
     "wezterm/wezterm.lua".source = ./apps/wezterm.lua;
     "xmonad/xmonad.hs".source = ./apps/xmonad.hs;
+    "git/config".source = ./apps/gitconfig;
   };
 }

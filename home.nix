@@ -2,7 +2,11 @@
 
 let
 
+  myUserName = (import ./variables.nix).myUserName;
+  myStateVersion = (import ./variables.nix).myStateVersion;
+
   # -- zsh plugins --
+
   # autosuggestions
   zshAutosuggestions = pkgs.fetchFromGitHub {
     owner = "zsh-users";
@@ -10,6 +14,7 @@ let
     rev = "v0.7.0";
     sha256 = "sha256-KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
   };
+
   # syntax highlighting
   zshSyntaxHighlighting = pkgs.fetchFromGitHub {
     owner = "zsh-users";
@@ -21,13 +26,13 @@ let
 in
 
 {
-  home.username = "lulu2"; # TODO: Parametrize user name
-  home.homeDirectory = "/home/lulu2"; # TODO: Parametrize user name
-  home.stateVersion = "23.05"; # TODO: Parametrize version
+  home.username = myUserName;
+  home.homeDirectory = "/home/${myUserName}";
+  home.stateVersion = myStateVersion;
 
   # User config
   xdg.configFile = {
-    # Has to match ZDOTDIR (should be ~/.config/zsh)
+    # The path has to match ZDOTDIR (should be set to ~/.config/zsh)
     "zsh/.zshrc".source = ./apps/zshrc;
     "zsh/plugins/zsh-autosuggestions".source = zshAutosuggestions;
     "zsh/plugins/zsh-syntax-highlighting".source = zshSyntaxHighlighting;

@@ -4,6 +4,13 @@
 
 { config, pkgs, ... }:
 
+let
+
+  myStateVersion = (import ./variables.nix).myStateVersion;
+  myUserName = (import ./variables.nix).myUserName;
+
+in
+
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -150,7 +157,7 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.defaultUserShell = pkgs.zsh;
-  users.users.lulu2 = {
+  users.users."${myUserName}" = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
@@ -159,7 +166,7 @@
   # Home manager
   home-manager = {
     useGlobalPkgs = true; # Use packages configured at system level
-    users.lulu2 = import ./home.nix;
+    users."${myUserName}" = import ./home.nix;
   };
 
   # List packages installed in system profile. To search, run:
@@ -226,6 +233,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = myStateVersion; # Did you read the comment?
 }
 

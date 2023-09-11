@@ -13,7 +13,7 @@ Declaratively define my OS (both the system and user configs) and do it in a rep
 
 ### Design
 
-*Minimize obfuscations and config sizes*
+*Minimize obfuscations and config sizes - avoid hacks*
 
 - The whole config should be declarative and built with NixOS
 - Configure programs in their standard format (e.g. not in nix itself)

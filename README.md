@@ -1,4 +1,4 @@
-# My NixOS config
+# My NixOS config 🚀⭐
 
 ## Rationale
 

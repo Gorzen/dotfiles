@@ -6,8 +6,7 @@
 
 let
 
-  myStateVersion = (import ./variables.nix).myStateVersion;
-  myUserName = (import ./variables.nix).myUserName;
+  myVars = import ./variables.nix;
 
 in
 
@@ -157,7 +156,7 @@ in
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.defaultUserShell = pkgs.zsh;
-  users.users."${myUserName}" = {
+  users.users."${myVars.userName}" = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
@@ -166,7 +165,7 @@ in
   # Home manager
   home-manager = {
     useGlobalPkgs = true; # Use packages configured at system level
-    users."${myUserName}" = import ./home.nix;
+    users."${myVars.userName}" = import ./home.nix;
   };
 
   # List packages installed in system profile. To search, run:
@@ -233,6 +232,6 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = myStateVersion; # Did you read the comment?
+  system.stateVersion = myVars.stateVersion; # Did you read the comment?
 }
 

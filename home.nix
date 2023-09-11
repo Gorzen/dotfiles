@@ -2,8 +2,7 @@
 
 let
 
-  myUserName = (import ./variables.nix).myUserName;
-  myStateVersion = (import ./variables.nix).myStateVersion;
+  myVars = import ./variables.nix;
 
   # -- zsh plugins --
 
@@ -26,9 +25,9 @@ let
 in
 
 {
-  home.username = myUserName;
-  home.homeDirectory = "/home/${myUserName}";
-  home.stateVersion = myStateVersion;
+  home.username = myVars.userName;
+  home.homeDirectory = "/home/${myVars.userName}";
+  home.stateVersion = myVars.stateVersion;
 
   # User config
   xdg.configFile = {

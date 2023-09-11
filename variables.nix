@@ -1,6 +1,6 @@
-# Very simple nix file - it's only an attribute set
-# Made to be imported in other nix files to access some 'constant' values
+# Very simple nix file - only an attribute set
+# Made to be imported in other nix files to access some generally useful values
 {
-  myUserName = "lulu2"; # TODO: When ready, change to lulu
-  myStateVersion = "23.05";
+  userName = "lulu";
+  stateVersion = "23.05";
 }

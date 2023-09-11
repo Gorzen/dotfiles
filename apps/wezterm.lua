@@ -11,7 +11,11 @@ if wezterm.config_builder then
 end
 
 -- This is where you actually apply your config choices
-config.color_scheme = 'Breeze (Gogh)'
+-- TODO: Find a better theme or create my own
+config.color_scheme = 'Panda (Gogh)'
+
+-- Window opacity
+config.window_background_opacity = 0.96
 
 -- and finally, return the configuration to wezterm
 return config

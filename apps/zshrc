@@ -1,7 +1,11 @@
+# TODO: Check what these do
 typeset -U path cdpath fpath manpath
 
 # Enable completion
 autoload -U compinit && compinit
+
+# Menu select style completion
+zstyle ':completion:*' menu select
 
 # Use emacs keymap as the default.
 bindkey -e
@@ -37,6 +41,10 @@ setopt EXTENDED_HISTORY
 
 # Aliases
 alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
 alias ll='ls -l'
 alias v='nvim'
 alias vi='nvim'

@@ -23,6 +23,9 @@
   ls = l --shortstat
   li = l --graph --shortstat
   lia = li --all
+  rb = rebase
+[push]
+  autoSetupRemote = true
 [core]
   editor = nvim
   pager = less

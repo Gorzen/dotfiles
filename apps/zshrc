@@ -1,8 +1,15 @@
 # TODO: Check what these do
 typeset -U path cdpath fpath manpath
 
+# Reevaluate the prompt each time it's displaying
+# Needed since the prompt calls a function for git information
+setopt prompt_subst
+
 # Enable completion
 autoload -U compinit && compinit
+
+# Load colors (for example, to use $fg[red])
+autoload colors && colors
 
 # Menu select style completion
 zstyle ':completion:*' menu select
@@ -52,3 +59,58 @@ alias vim='nvim'
 alias g='git'
 alias cfg='cd /etc/nixos'
 alias cfgu='cd /etc/nixos/apps'
+
+# Prompt
+function _my_git_prompt {
+  MY_GIT_BRANCH=""
+  MY_GIT_DIRTY=""
+  MY_GIT_DIFF_REMOTE=""
+
+  # Check if in a git repository
+  if MY_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+    if [ "$MY_GIT_BRANCH" = 'HEAD' ]; then
+      # Not on a branch, probably detached head. Get ref hash
+      MY_GIT_BRANCH=$(git rev-parse --short HEAD 2> /dev/null)
+    fi
+
+    MY_GIT_BRANCH="$fg[blue] @ $fg[green]$MY_GIT_BRANCH"
+
+    MY_GIT_STATUS=$(git status --short --branch 2> /dev/null)
+
+    # Check if dirty
+    if [ -n "$(echo $MY_GIT_STATUS | tail -n +2 2> /dev/null)" ]; then
+      MY_GIT_DIRTY="$fg[red] x"
+    fi
+
+    # Check tracking status
+    MY_GIT_TRACKING_DATA=$(echo $MY_GIT_STATUS | head -n 1 2> /dev/null)
+    MY_GIT_TRACKING_AHEAD=""
+    MY_GIT_TRACKING_BEHIND=""
+
+    if [[ $MY_GIT_TRACKING_DATA =~ '\[ahead ([0-9]+)' ]]; then
+      MY_GIT_TRACKING_AHEAD="$reset_color↑$fg[green]$match[1]"
+    fi
+
+    if [[ $MY_GIT_TRACKING_DATA =~ 'behind ([0-9]+)\]' ]]; then
+      MY_GIT_TRACKING_BEHIND="$reset_color↓$fg[red]$match[1]"
+    fi
+
+    if [ -n "$MY_GIT_TRACKING_AHEAD$MY_GIT_TRACKING_BEHIND" ]; then
+      MY_GIT_DIFF_REMOTE="$reset_color ($fg[green]$MY_GIT_TRACKING_AHEAD$reset_color$fg[red]$MY_GIT_TRACKING_BEHIND$reset_color)"
+    fi
+
+    unset MY_GIT_STATUS
+    unset MY_GIT_TRACKING_DATA
+    unset MY_GIT_TRACKING_AHEAD
+    unset MY_GIT_TRACKING_BEHIND
+  fi
+
+  print "$MY_GIT_BRANCH$MY_GIT_DIFF_REMOTE$MY_GIT_DIRTY"
+
+  unset MY_GIT_BRANCH
+  unset MY_GIT_DIRTY
+  unset MY_GIT_DIFF_REMOTE
+}
+
+# Don't show username or hostname
+PROMPT="$fg[yellow]%~\$(_my_git_prompt)$reset_color %% "

@@ -187,6 +187,7 @@ in
     cabal-install
     stack
     haskell-language-server
+    acpilight
   ];
 
   environment.shells = [ pkgs.zsh ];

@@ -13,25 +13,20 @@ in
 {
   imports =
     [ # Include the results of the hardware scan.
+      <nixos-hardware/dell/latitude/7490>
       ./hardware-configuration.nix
       <home-manager/nixos>
     ];
 
 
-  # TODO: Change to systemd-boot and UEFI
-
-  # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  # boot.loader.grub.efiSupport = true;
-  # boot.loader.grub.efiInstallAsRemovable = true;
-  # boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  # Define on which hard drive you want to install Grub.
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+
+  # Enable networkmanager
+  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -83,10 +78,14 @@ in
     enable = true;
     layout = "ch";
     xkbVariant = "fr";
+    xkbModel = "latitude";
     xkbOptions = "eurosign:e,caps:escape";
 
+    # Enable touchpad support (enabled default in most desktopManager).
+    libinput.enable = true;
+    libinput.touchpad.naturalScrolling = true;
+
     # Adds the following configurations to xorg.conf. Warning: Loaded after xorg.conf.d
-    monitorSection = ''Option "PreferredMode" "2560x1440"'';
     inputClassSections = [ ''
       Identifier       "Keyboard catchall"
       MatchIsKeyboard  "on"
@@ -147,9 +146,6 @@ in
     enable = true;
     audio.enable = true; # Use pipewire as the primary sound server
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Enable zsh for system and users
   programs.zsh.enable = true;

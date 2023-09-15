@@ -9,4 +9,6 @@
 - [ ] zsh case insensitive completion
 - [ ] Add firmware update
 - [ ] Fix zsh shortcuts ctrl-l ctrl-w etc
+- [ ] Change brightness without being root
+- [ ] Spotify
 

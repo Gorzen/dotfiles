@@ -8,4 +8,6 @@
 - [ ] Spotify
 - [ ] GTK theme + cursor + icons
 - [ ] Own terminal color theme?
+- [ ] Change hostname
+- [ ] Change timesync
 

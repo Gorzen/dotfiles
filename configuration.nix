@@ -196,6 +196,9 @@ in
     shell = pkgs.zsh;
   };
 
+  # Enable fwupd service, to allow updating firmware
+  services.fwupd.enable = true;
+
   # Home manager
   home-manager = {
     useGlobalPkgs = true; # Use packages configured at system level
@@ -227,6 +230,7 @@ in
     haskell-language-server
     acpilight
     pavucontrol
+    neofetch
   ];
 
   environment.shells = [ pkgs.zsh ];

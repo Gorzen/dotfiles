@@ -48,6 +48,12 @@ in
   # Enable networkmanager
   networking.networkmanager.enable = true;
 
+  # Enable systemd DNS resolver daemon (used by networkmanager)
+  services.resolved.enable = true;
+
+  # Enable upower, a DBus service that provides power management support to applications
+  services.upower.enable = true;
+
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
@@ -131,7 +137,26 @@ in
     };
   };
 
-  hardware.opengl.enable = true;
+  # Enable xdg-portal
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
+  # Enable GPU acceleration with intel drivers
+  # https://nixos.wiki/wiki/Accelerated_Video_Playback
+  #nixpkgs.config.packageOverrides = pkgs: {
+  #  vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; # WARN: This is no longer maintainted by Intel https://github.com/intel/intel-hybrid-driver
+  #};
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+  #    intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+  #    vaapiVdpau
+  #    libvdpau-va-gl
+    ];
+  };
 
   # Enable compositor (picom) to improve window painting
   services.picom = {
@@ -162,17 +187,17 @@ in
   services.printing.enable = true;
 
   # Enable sound with pipewire
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
+  #security.rtkit.enable = true;
+  #services.pipewire = {
+  #  enable = true;
 
-    # Enable pulse support to use pulse application (e.g. pavucontrol)
-    pulse.enable = true;
+  #  # Enable pulse support to use pulse application (e.g. pavucontrol)
+  #  pulse.enable = true;
 
-    # Enable alsa support
-    alsa.enable = true;
-    alsa.support32Bit = true;
-  };
+  #  # Enable ALSA support
+  #  #alsa.enable = true;
+  #  #alsa.support32Bit = true;
+  #};
 
   # Users in group 'video' can change brightness
   services.udev.extraRules = ''
@@ -180,7 +205,6 @@ in
     RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/%k/brightness", \
     RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/%k/brightness"
   '';
-
 
   # Enable zsh for system and users
   programs.zsh.enable = true;
@@ -217,11 +241,12 @@ in
     brave
     rofi
     vscodium
-    dunst
     nnn
     feh
     libsForQt5.qt5.qtgraphicaleffects # Needed by SDDM Sugar Candy theme
     gnumake
+    glib
+    libnotify
     ncurses
     curl
     ghc
@@ -254,12 +279,6 @@ in
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  # If using virtualbox
-  virtualisation.virtualbox.guest = {
-    enable = true;
-    x11 = true;
-  };
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

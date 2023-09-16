@@ -41,4 +41,16 @@ in
     "git/config".source = ./apps/gitconfig;
     "nvim/init.lua".source = ./apps/nvim.lua;
   };
+
+  # Dunst config (will create a systemd service, necessary for notifications to work correctly)
+  services.dunst = {
+    enable = true;
+  };
+
+  # GTK config
+  #gtk = {
+  #  enable = true;
+  #  cursorTheme = ???;
+
+  #};
 }

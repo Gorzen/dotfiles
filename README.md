@@ -13,7 +13,7 @@ Declaratively define my OS (both the system and user configs) and do it in a rep
 
 ### Design
 
-*Minimize obfuscations and config sizes - avoid hacks*
+*Minimize obfuscations and config sizes - try to avoid hacks*
 
 - The whole config should be declarative and built with NixOS
 - Configure programs in their standard format (e.g. not in nix itself)
@@ -24,6 +24,8 @@ Declaratively define my OS (both the system and user configs) and do it in a rep
 ## Install
 
 *Warning: This is my personal config. Don't expect this to work oob for you. But, I'm very happy if you find some useful bits in it* 🙌
+
+Example installation commands:
 
 1. Follow [NixOS install instructions](https://nixos.org/manual/nixos/stable/#sec-installation-manual) to:
    1. Connect to the internet

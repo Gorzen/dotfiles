@@ -138,13 +138,20 @@ in
     };
   };
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  # Enable CUPS to print documents
+  services.printing.enable = true;
 
   # Enable sound with pipewire
+  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
-    audio.enable = true; # Use pipewire as the primary sound server
+
+    # Enable pulse support to use pulse application (e.g. pavucontrol)
+    pulse.enable = true;
+
+    # Enable alsa support
+    alsa.enable = true;
+    alsa.support32Bit = true;
   };
 
   # Enable zsh for system and users
@@ -188,6 +195,7 @@ in
     stack
     haskell-language-server
     acpilight
+    pavucontrol
   ];
 
   environment.shells = [ pkgs.zsh ];

@@ -5,7 +5,8 @@ typeset -U path cdpath fpath manpath
 # Needed since the prompt calls a function for git information
 setopt prompt_subst
 
-# Enable completion
+# Enable completion (case-insensitive lowercase to uppercase)
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 autoload -U compinit && compinit
 
 # Load colors (for example, to use $fg[red])

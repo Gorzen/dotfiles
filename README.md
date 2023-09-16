@@ -24,6 +24,8 @@ Declaratively define my OS (both the system and user configs) and do it in a rep
 
 ## Install
 
+*Warning: This is my personal config. Don't expect this to work oob for you. But, I'm very happy if you find some useful bits in it* 🙌
+
 1. Follow [NixOS install instructions](https://nixos.org/manual/nixos/stable/#sec-installation-manual) to:
    1. Connect to the internet
    2. Create partitions

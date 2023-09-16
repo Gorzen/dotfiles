@@ -6,8 +6,6 @@
 - [ ] Find some way to allow changing config for specific hardware? Ignored file where you can import some file you want?
 - [ ] Add firmware update
 - [ ] Fix zsh shortcuts ctrl-l ctrl-w etc
-- [ ] Change brightness without being root
 - [ ] Spotify
-- [ ] Fix audio pipewire (add pavucontrol)
 - [ ] GTK theme + cursor + icons
 

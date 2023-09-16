@@ -23,7 +23,8 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  # TODO: Add hostname in variables?
+  networking.hostName = "nixos";
 
   # Enable networkmanager
   networking.networkmanager.enable = true;
@@ -154,6 +155,14 @@ in
     alsa.support32Bit = true;
   };
 
+  # Users in group 'video' can change brightness
+  services.udev.extraRules = ''
+    SUBSYSTEM=="backlight", ACTION=="add", \
+    RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/%k/brightness", \
+    RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/%k/brightness"
+  '';
+
+
   # Enable zsh for system and users
   programs.zsh.enable = true;
 
@@ -161,7 +170,10 @@ in
   users.defaultUserShell = pkgs.zsh;
   users.users."${myVars.userName}" = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel" # Enable ‘sudo’ for the user
+      "video" # User can control brightness
+    ];
     shell = pkgs.zsh;
   };
 

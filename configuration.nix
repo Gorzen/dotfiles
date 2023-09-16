@@ -186,18 +186,9 @@ in
   # Enable CUPS to print documents
   services.printing.enable = true;
 
-  # Enable sound with pipewire
-  #security.rtkit.enable = true;
-  #services.pipewire = {
-  #  enable = true;
-
-  #  # Enable pulse support to use pulse application (e.g. pavucontrol)
-  #  pulse.enable = true;
-
-  #  # Enable ALSA support
-  #  #alsa.enable = true;
-  #  #alsa.support32Bit = true;
-  #};
+  # Enable sound and pulseaudio
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
   # Users in group 'video' can change brightness
   services.udev.extraRules = ''
@@ -216,6 +207,7 @@ in
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user
       "video" # User can control brightness
+      "audio" # User can use audio devices
     ];
     shell = pkgs.zsh;
   };

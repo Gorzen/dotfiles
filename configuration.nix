@@ -23,6 +23,25 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Use zen kernel
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+
+  # -- Storage optimisation --
+
+  # https://nixos.wiki/wiki/Storage_optimization
+
+  # Hard-link identical files in nix store. Saves 25%-35% storage
+  nix.settings.auto-optimise-store = true;
+
+  # Automatically run nix garbage collector (deletes old generations and unused store derivations)
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
+  # --------------------------
+
   # TODO: Add hostname in variables?
   networking.hostName = "nixos";
 

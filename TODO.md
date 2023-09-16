@@ -8,4 +8,5 @@
 - [ ] Fix zsh shortcuts ctrl-l ctrl-w etc
 - [ ] Spotify
 - [ ] GTK theme + cursor + icons
+- [ ] Own terminal color theme?
 

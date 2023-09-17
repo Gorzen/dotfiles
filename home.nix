@@ -48,37 +48,11 @@ in
   };
 
   # GTK config
-  # TODO: Set font?
+  # Note: Themes are installed in system packages
   gtk = {
     enable = true;
-
-    theme = {
-      name = "Arc-Dark";
-    };
-
-    iconTheme = {
-      name = "Papirus-Dark";
-    };
-
-    cursorTheme = {
-      name = "Numix-Cursor";
-    };
-
-    #font = {
-    #  package = pkgs.noto-fonts; # TODO: Use from font config?
-    #  name = "Noto Serif";
-    #};
-
-    #gtk3.extraConfig = {
-    #  Settings = ''
-    #    gtk-application-prefer-dark-theme=1
-    #  '';
-    #};
-
-    #gtk4.extraConfig = {
-    #  Settings = ''
-    #    gtk-application-prefer-dark-theme=1
-    #  '';
-    #};
+    theme.name = "Arc-Dark";
+    iconTheme.name = "Papirus-Dark";
+    cursorTheme.name = "Numix-Cursor";
   };
 }

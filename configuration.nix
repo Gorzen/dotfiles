@@ -93,6 +93,9 @@ in
       "${XDG_BIN_HOME}"
     ];
 
+    # TODO: Move to home-manager?
+    GTK_THEME = "Arc-Dark";
+
     # Declutter home directory. See: https://wiki.archlinux.org/title/XDG_Base_Directory
     # libx11
     XCOMPOSEFILE = "${XDG_CONFIG_HOME}/X11/xcompose";
@@ -145,6 +148,9 @@ in
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
+
+  # Enable dconf - needed for configuration of GTK applications
+  programs.dconf.enable = true;
 
   # Enable GPU acceleration with intel drivers
   # https://nixos.wiki/wiki/Accelerated_Video_Playback
@@ -251,6 +257,10 @@ in
     acpilight
     pavucontrol
     neofetch
+    pcmanfm
+    arc-theme
+    papirus-icon-theme
+    numix-cursor-theme
   ];
 
   environment.shells = [ pkgs.zsh ];

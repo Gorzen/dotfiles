@@ -14,4 +14,5 @@
 - [ ] Add bar to nvim
 - [ ] Add file tree to nvim
 - [ ] Configure xmonad
+- [ ] Configure xmonad/X11 cursor theme
 

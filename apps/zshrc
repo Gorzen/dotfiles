@@ -61,6 +61,7 @@ alias g='git'
 alias cfg='cd /etc/nixos'
 alias cfgu='cd /etc/nixos/apps'
 alias firmware-update='fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update'
+alias nix-store-repair='sudo nix-store --verify --check-contents --repair'
 
 # Prompt
 function _my_git_prompt {

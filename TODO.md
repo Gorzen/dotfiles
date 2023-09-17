@@ -10,4 +10,8 @@
 - [ ] Own terminal color theme?
 - [ ] Change hostname
 - [ ] Change timesync
+- [ ] Fix computer halts (re-add nixos-hardware if possible)
+- [ ] Add bar to nvim
+- [ ] Add file tree to nvim
+- [ ] Configure xmonad
 

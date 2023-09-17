@@ -13,7 +13,7 @@ in
 {
   imports =
     [ # Include the results of the hardware scan.
-      <nixos-hardware/dell/latitude/7490>
+      #<nixos-hardware/dell/latitude/7490>
       ./hardware-configuration.nix
       <home-manager/nixos>
     ];
@@ -23,8 +23,11 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Use zen kernel
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  # Use lts kernel
+  boot.kernelPackages = pkgs.linuxPackages;
+
+  # TODO: Reenable?
+  services.timesyncd.enable = false;
 
   # -- Storage optimisation --
 
@@ -43,7 +46,7 @@ in
   # --------------------------
 
   # TODO: Add hostname in variables?
-  networking.hostName = "nixos";
+  networking.hostName = "nixos-latitude";
 
   # Enable networkmanager
   networking.networkmanager.enable = true;
@@ -145,23 +148,23 @@ in
 
   # Enable GPU acceleration with intel drivers
   # https://nixos.wiki/wiki/Accelerated_Video_Playback
-  #nixpkgs.config.packageOverrides = pkgs: {
-  #  vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; # WARN: This is no longer maintainted by Intel https://github.com/intel/intel-hybrid-driver
+          #nixpkgs.config.packageOverrides = pkgs: {
+          #  vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; # WARN: This is no longer maintainted by Intel https://github.com/intel/intel-hybrid-driver
+          #};
+  #hardware.opengl = {
+  #  enable = true;
+  #  extraPackages = with pkgs; [
+  #        #    intel-media-driver # LIBVA_DRIVER_NAME=iHD
+  #    vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+  #        #    vaapiVdpau
+  #        #    libvdpau-va-gl
+  #  ];
   #};
-  hardware.opengl = {
-    enable = true;
-    extraPackages = with pkgs; [
-  #    intel-media-driver # LIBVA_DRIVER_NAME=iHD
-      vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
-  #    vaapiVdpau
-  #    libvdpau-va-gl
-    ];
-  };
 
   # Enable compositor (picom) to improve window painting
   services.picom = {
     enable = true;
-    vSync = true;
+    #vSync = true;
   };
 
   fonts = {
@@ -184,7 +187,7 @@ in
   };
 
   # Enable CUPS to print documents
-  services.printing.enable = true;
+  #services.printing.enable = true;
 
   # Enable sound and pulseaudio
   sound.enable = true;

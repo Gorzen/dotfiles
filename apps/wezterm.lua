@@ -15,7 +15,7 @@ end
 config.color_scheme = 'Panda (Gogh)'
 
 -- Window opacity
-config.window_background_opacity = 0.96
+config.window_background_opacity = 0.94
 
 -- and finally, return the configuration to wezterm
 return config

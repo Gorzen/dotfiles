@@ -4,6 +4,7 @@ import XMonad.Util.EZConfig
 import XMonad.Util.NamedActions (NamedAction)
 import Data.Map (Map)
 import XMonad.Util.SpawnOnce (spawnOnce)
+import Graphics.X11.ExtraTypes.XF86
 
 -- Increase brightness: xbacklight -inc 5
 -- Decrease brightness: xbacklight -dec 5
@@ -18,15 +19,29 @@ import XMonad.Util.SpawnOnce (spawnOnce)
 myTerminal :: String
 myTerminal = "wezterm"
 
+-- TODO: Use xmonad's way to set wallpaper?
+setWallpaper :: String
+setWallpaper = "feh --bg-scale --random $HOME/Images/Wallpapers"
+
 -- TODO: Use
-myKeys :: XConfig l0 -> Map (ButtonMask, KeySym) (X ())
-myKeys c = M.fromList
+--myKeys :: XConfig l0 -> Map (ButtonMask, KeySym) (X ())
+--myKeys c = M.fromList
+-- [ ... ]
+
+myKeys0 :: [((KeyMask, KeySym), X ())]
+myKeys0 =
   [ ((mod1Mask, xK_p), spawn "rofi -show drun")
+  , ((mod1Mask, xK_w), spawn setWallpaper)
+  , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
+  , ((0, xF86XK_AudioRaiseVolume), spawn "amixer set Master 5%+") , ((0, xF86XK_AudioLowerVolume), spawn "amixer set Master 5%-")
+  , ((0, xF86XK_MonBrightnessUp), spawn "xbacklight -inc 5")
+  , ((0, xF86XK_MonBrightnessDown), spawn "xbacklight -dec 5")
   ]
 
 myStartupHook :: X ()
 myStartupHook = do
   spawn "xsetroot -cursor_name left_ptr" -- For some reason, this is needed for XMonad to use the defined default cursor theme. Otherwise, XMonad still uses the X cursor
+  spawn setWallpaper
 
 main = xmonad $ def
   { terminal = myTerminal
@@ -34,6 +49,5 @@ main = xmonad $ def
   , startupHook = myStartupHook
   }
   `additionalKeys`
-  [ ((mod1Mask, xK_p), spawn "rofi -show drun")
-  ]
+  myKeys0
 

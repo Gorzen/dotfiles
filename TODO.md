@@ -13,4 +13,6 @@
 - [ ] Configure xmonad
 - [ ] Clean system packages, sort in categories
 - [ ] Change user face icon
+- [ ] Set rofi theme
+- [ ] Put wallpapers in a git repo?
 

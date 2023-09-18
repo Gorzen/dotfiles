@@ -262,7 +262,8 @@ in
     vscodium
     nnn
     feh
-    libsForQt5.qt5.qtgraphicaleffects # Needed by SDDM Sugar Candy theme
+    sxiv
+    libsForQt5.qt5.qtgraphicaleffects # Needed by sddm chili theme
     gnumake
     glib
     libnotify

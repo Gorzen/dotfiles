@@ -11,4 +11,6 @@
 - [ ] Add bar to nvim
 - [ ] Add file tree to nvim
 - [ ] Configure xmonad
+- [ ] Clean system packages, sort in categories
+- [ ] Change user face icon
 

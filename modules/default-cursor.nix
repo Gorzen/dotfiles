@@ -4,7 +4,9 @@
 { config, pkgs, lib, ... }:
 
 with lib;
+
 let
+
   cfg = config.environment.defaultCursor;
 
   indexThemeText = theme: generators.toINI {} {"icon theme" = { Inherits = "${theme}"; }; };
@@ -14,7 +16,9 @@ let
     "${indexThemeText theme}";
 
   defaultCursorPkg = mkDefaultCursorFile cfg.theme;
+
 in
+
 {
   options = {
     environment.defaultCursor = {

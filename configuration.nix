@@ -17,6 +17,7 @@ in
       ./hardware-configuration.nix
       <home-manager/nixos>
       ./modules/default-cursor.nix
+      ./modules/sddm-face-icon.nix
     ];
 
 
@@ -129,13 +130,19 @@ in
     # Configure the display manager - sddm
     displayManager.sddm = {
       enable = true;
-      theme = "${(pkgs.fetchFromGitLab {
-        domain = "framagit.org";
-        owner = "MarianArlt";
-        repo = "sddm-sugar-candy";
-        rev = "2b72ef6c6f720fe0ffde5ea5c7c48152e02f6c4f";
-        hash = "sha256-XggFVsEXLYklrfy1ElkIp9fkTw4wvXbyVkaVCZq4ZLU=";
-      })}";
+
+      theme = "${pkgs.fetchFromGitHub {
+        owner = "Gorzen";
+        repo = "sddm-chili";
+        rev = "b03ba7c4c99df3c33ac8de1ee173980fa5458c9b";
+        hash = "sha256-QLH+gi7FhxvNe6HF3bGtoxGHd4CGIvew6x+OU0pYn5Q=";
+      }}";
+
+      faceIcon = {
+        enable = true;
+        userName = myVars.userName;
+        path = ./images/face-icon.png;
+      };
     };
 
     # Configure the window manager - XMonad

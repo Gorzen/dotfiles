@@ -134,8 +134,8 @@ in
       theme = "${pkgs.fetchFromGitHub {
         owner = "Gorzen";
         repo = "sddm-chili";
-        rev = "b03ba7c4c99df3c33ac8de1ee173980fa5458c9b";
-        hash = "sha256-QLH+gi7FhxvNe6HF3bGtoxGHd4CGIvew6x+OU0pYn5Q=";
+        rev = "dee5e3208a03c299d23a3a52c23327e4b1748786";
+        hash = "sha256-AicCwcVd+7cv1HjJUs7zsJvl/R71HQdeTNLKhh6GtLg=";
       }}";
 
       faceIcon = {

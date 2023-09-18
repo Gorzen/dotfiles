@@ -16,6 +16,7 @@ in
       #<nixos-hardware/dell/latitude/7490>
       ./hardware-configuration.nix
       <home-manager/nixos>
+      ./default-cursor.nix
     ];
 
 
@@ -93,8 +94,9 @@ in
       "${XDG_BIN_HOME}"
     ];
 
-    # TODO: Move to home-manager?
+    # Not sure these are needed. But, why not?
     GTK_THEME = "Arc-Dark";
+    XCURSOR_THEME = "Numix-Cursor";
 
     # Declutter home directory. See: https://wiki.archlinux.org/title/XDG_Base_Directory
     # libx11
@@ -129,10 +131,10 @@ in
       enable = true;
       theme = "${(pkgs.fetchFromGitLab {
         domain = "framagit.org";
-	owner = "MarianArlt";
-	repo = "sddm-sugar-candy";
-	rev = "2b72ef6c6f720fe0ffde5ea5c7c48152e02f6c4f";
-	hash = "sha256-XggFVsEXLYklrfy1ElkIp9fkTw4wvXbyVkaVCZq4ZLU=";
+        owner = "MarianArlt";
+        repo = "sddm-sugar-candy";
+        rev = "2b72ef6c6f720fe0ffde5ea5c7c48152e02f6c4f";
+        hash = "sha256-XggFVsEXLYklrfy1ElkIp9fkTw4wvXbyVkaVCZq4ZLU=";
       })}";
     };
 
@@ -147,6 +149,15 @@ in
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
+  # Should be enable by default, but enable XDG Icon Theme spefication (themes in /usr/share/icons)
+  xdg.icons.enable = true;
+
+  # Set cursor theme in XDG, globally
+  environment.defaultCursor = {
+    enable = true;
+    theme = "Numix-Cursor";
   };
 
   # Enable dconf - needed for configuration of GTK applications

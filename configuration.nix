@@ -6,7 +6,7 @@
 
 let
 
-  myVars = import ./variables.nix;
+  myVars = import ./modules/variables.nix pkgs;
 
 in
 
@@ -16,7 +16,7 @@ in
       #<nixos-hardware/dell/latitude/7490>
       ./hardware-configuration.nix
       <home-manager/nixos>
-      ./default-cursor.nix
+      ./modules/default-cursor.nix
     ];
 
 
@@ -95,8 +95,8 @@ in
     ];
 
     # Not sure these are needed. But, why not?
-    GTK_THEME = "Arc-Dark";
-    XCURSOR_THEME = "Numix-Cursor";
+    GTK_THEME = "${myVars.themes.gtk.name}";
+    XCURSOR_THEME = "${myVars.themes.cursor.name}";
 
     # Declutter home directory. See: https://wiki.archlinux.org/title/XDG_Base_Directory
     # libx11
@@ -157,7 +157,7 @@ in
   # Set cursor theme in XDG, globally
   environment.defaultCursor = {
     enable = true;
-    theme = "Numix-Cursor";
+    theme = myVars.themes.cursor.name;
   };
 
   # Enable dconf - needed for configuration of GTK applications
@@ -269,9 +269,9 @@ in
     pavucontrol
     neofetch
     pcmanfm
-    arc-theme
-    papirus-icon-theme
-    numix-cursor-theme
+    myVars.themes.gtk.pkg
+    myVars.themes.icon.pkg
+    myVars.themes.cursor.pkg
   ];
 
   environment.shells = [ pkgs.zsh ];

@@ -2,7 +2,7 @@
 
 let
 
-  myVars = import ./variables.nix;
+  myVars = import ./modules/variables.nix pkgs;
 
   # -- zsh plugins --
 
@@ -51,8 +51,8 @@ in
   # Note: Themes are installed in system packages
   gtk = {
     enable = true;
-    theme.name = "Arc-Dark";
-    iconTheme.name = "Papirus-Dark";
-    cursorTheme.name = "Numix-Cursor";
+    theme.name = myVars.themes.gtk.name;
+    iconTheme.name = myVars.themes.icon.name;
+    cursorTheme.name = myVars.themes.cursor.name;
   };
 }

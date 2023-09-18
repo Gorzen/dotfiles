@@ -15,4 +15,6 @@
 - [ ] Change user face icon
 - [ ] Set rofi theme
 - [ ] Put wallpapers in a git repo?
+- [ ] Add lock
+- [ ] Lock when closing lid
 

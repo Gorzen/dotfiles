@@ -217,6 +217,15 @@ in
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
+  # Enable bluetooth (uses bluez)
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = false;
+  };
+
+  # Use bluman to manage bluetooth
+  services.blueman.enable = true;
+
   # Users in group 'video' can change brightness
   services.udev.extraRules = ''
     SUBSYSTEM=="backlight", ACTION=="add", \

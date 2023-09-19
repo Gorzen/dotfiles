@@ -16,4 +16,4 @@
 - [ ] Put wallpapers in a git repo?
 - [ ] Add lock
 - [ ] Lock when closing lid
-- [ ] Add bluetooth (user should be able to enable/disable)
+- [ ] Disable tabs in wezterm?

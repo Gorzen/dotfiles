@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
 
@@ -293,12 +293,19 @@ in
     pavucontrol
     neofetch
     pcmanfm
+    spotify
+    spotify-tray
     myVars.themes.gtk.pkg
     myVars.themes.icon.pkg
     myVars.themes.cursor.pkg
     xmobar
     networkmanagerapplet
     trayer
+  ];
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "spotify"
   ];
 
   environment.shells = [ pkgs.zsh ];

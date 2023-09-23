@@ -178,7 +178,9 @@ in
   # Enable dconf - needed for configuration of GTK applications
   programs.dconf.enable = true;
 
-  # Enable GPU acceleration with intel drivers
+  # Enable GPU acceleration
+  hardware.opengl.enable = true;
+
   # https://nixos.wiki/wiki/Accelerated_Video_Playback
           #nixpkgs.config.packageOverrides = pkgs: {
           #  vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; # WARN: This is no longer maintainted by Intel https://github.com/intel/intel-hybrid-driver
@@ -196,7 +198,7 @@ in
   # Enable compositor (picom) to improve window painting
   services.picom = {
     enable = true;
-    #vSync = true;
+    vSync = true;
   };
 
   fonts = {
@@ -295,6 +297,8 @@ in
     myVars.themes.icon.pkg
     myVars.themes.cursor.pkg
     xmobar
+    networkmanagerapplet
+    trayer
   ];
 
   environment.shells = [ pkgs.zsh ];

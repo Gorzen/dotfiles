@@ -28,8 +28,16 @@ in
   # Use lts kernel
   boot.kernelPackages = pkgs.linuxPackages;
 
-  # TODO: Reenable?
-  services.timesyncd.enable = false;
+  # Enable NTP service with default pool.ntp.org servers
+  services.timesyncd = {
+    enable = true;
+    servers = [
+      "0.pool.ntp.org"
+      "1.pool.ntp.org"
+      "2.pool.ntp.org"
+      "3.pool.ntp.org"
+    ];
+  };
 
   # -- Storage optimisation --
 

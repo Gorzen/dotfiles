@@ -17,3 +17,22 @@
 - [ ] Add lock
 - [ ] Lock when closing lid
 - [ ] Disable tabs in wezterm?
+- [ ] Install languagues I use my system
+  - [ ] Haskell (kind of done, but maybe would be better to use ghcup, although that doesn't exist in NixOS packages)
+  - [ ] Rust (rustup)
+  - [ ] Scala (scala-cli + sbt ?) ?
+  - [ ] Python (python312 + poetry ?)
+  - [ ] Rest of languages, get in a nix-shell
+- [ ] xmobar
+  - [ ] Time & date
+  - [ ] Sound (pavucontrol on click)
+  - [ ] Bluetooth icon (see if disabled or not) (blueman on click)
+  - [ ] Wifi (see if disabled or not + signal?) (some manager on click)
+  - [ ] Workspaces
+  - [ ] cpu? memory?
+  - [ ] audio/media being played?
+  - [ ] window name + window settings (file, options, ...)?
+  - [ ] Battery capacity and status
+  - [ ] External disks (list, mount, unmount, power-off)
+- [ ] Add a central place to define mutltiple useful nix-shells? Plus a script to easily use them?
+- [ ] Have feedback when increasing/decreasing/muting sound

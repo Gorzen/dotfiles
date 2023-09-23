@@ -294,6 +294,7 @@ in
     myVars.themes.gtk.pkg
     myVars.themes.icon.pkg
     myVars.themes.cursor.pkg
+    xmobar
   ];
 
   environment.shells = [ pkgs.zsh ];

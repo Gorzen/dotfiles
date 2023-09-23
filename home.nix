@@ -38,6 +38,7 @@ in
 
     "wezterm/wezterm.lua".source = ./apps/wezterm.lua;
     "xmonad/xmonad.hs".source = ./apps/xmonad.hs;
+    "xmobar/.xmobarrc".source = ./apps/xmobarrc;
     "git/config".source = ./apps/gitconfig;
     "nvim/init.lua".source = ./apps/nvim.lua;
   };

@@ -17,6 +17,8 @@ config.color_scheme = 'Panda (Gogh)'
 -- Window opacity
 config.window_background_opacity = 0.94
 
+config.hide_tab_bar_if_only_one_tab = true
+
 -- and finally, return the configuration to wezterm
 return config
 

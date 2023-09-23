@@ -226,10 +226,7 @@ in
   hardware.pulseaudio.enable = true;
 
   # Enable bluetooth (uses bluez)
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = false;
-  };
+  hardware.bluetooth.enable = true;
 
   # Use bluman to manage bluetooth
   services.blueman.enable = true;

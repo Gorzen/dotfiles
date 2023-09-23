@@ -1,23 +1,21 @@
 # TODO
 
-- [ ] Add wallpaper
 - [ ] ls colors (nnn?)
 - [ ] Find some way to allow changing config for specific hardware? Ignored file where you can import some file you want?
 - [ ] Fix zsh shortcuts ctrl-l ctrl-w etc
 - [ ] Spotify
 - [ ] Own terminal color theme?
-- [ ] Re-enable timesync
 - [ ] Re-enable nixos-hardware
 - [ ] Add bar to nvim
 - [ ] Add file tree to nvim
 - [ ] Configure xmonad
 - [ ] Clean system packages, sort in categories
 - [ ] Set rofi theme
+- [ ] Add dunst pretty theme
 - [ ] Put wallpapers in a git repo?
 - [ ] Add lock
 - [ ] Lock when closing lid
-- [ ] Disable tabs in wezterm?
-- [ ] Install languagues I use my system
+- [ ] Install languagues I use in my system
   - [ ] Haskell (kind of done, but maybe would be better to use ghcup, although that doesn't exist in NixOS packages)
   - [ ] Rust (rustup)
   - [ ] Scala (scala-cli + sbt ?) ?

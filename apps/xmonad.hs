@@ -10,9 +10,15 @@ import XMonad.Hooks.DynamicLog (xmobarProp)
 import System.Directory.Internal.Prelude (getEnv)
 import System.Environment (getEnvironment)
 import GHC.IO (unsafePerformIO)
-import XMonad.Hooks.StatusBar (withEasySB, statusBarProp)
+import XMonad.Hooks.StatusBar (withEasySB, statusBarProp, defToggleStrutsKey)
 import XMonad.Hooks.StatusBar.PP
 import XMonad.Util.Loggers
+import XMonad.Hooks.ManageHelpers (isDialog, doCenterFloat)
+import XMonad.Layout.MultiToggle
+import XMonad.Layout.MultiToggle.Instances
+import XMonad.Layout.NoBorders (smartBorders)
+import XMonad.Layout.Grid (Grid(Grid))
+import XMonad.Layout.Circle (Circle(Circle))
 
 -- Increase brightness: xbacklight -inc 5
 -- Decrease brightness: xbacklight -dec 5
@@ -38,6 +44,7 @@ myKeys0 =
   [ ((mod1Mask, xK_p), spawn "rofi -show drun")
   , ((mod1Mask, xK_w), spawn setWallpaper)
   , ((mod1Mask, xK_Return), spawn "wezterm") -- TODO: myTerminal
+  , ((mod1Mask, xK_f), sendMessage $ Toggle FULL)
   , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
   , ((0, xF86XK_AudioRaiseVolume), spawn "amixer set Master 5%+") , ((0, xF86XK_AudioLowerVolume), spawn "amixer set Master 5%-")
   , ((0, xF86XK_MonBrightnessUp), spawn "xbacklight -inc 5")
@@ -49,19 +56,52 @@ myStartupHook = do
   -- Otherwise, xmonad still uses X cursor by default
   spawn "xsetroot -cursor_name left_ptr"
   spawnOnce setWallpaper
-  spawnOnce "trayer --edge top --align right --SetDockType true \
-            \--SetPartialStrut true --expand true --width 10 \
-            \--transparent true --tint 0x5f5f5f --height 18"
+  spawn "killall trayer"
+  spawn "sleep 2 && trayer --edge top --align right --SetDockType true \
+            \--expand true --height 22 --width 6 --iconspacing 8 \
+            \--tint 0x282c34 --transparent true --alpha 0 \
+            \--distancefrom right --distance 700" -- xmobar size has to be stable
   spawnOnce "nm-applet"
   spawnOnce "blueman-applet"
 
--- Keybinding to toggle xmobar
+
+myManageHook :: ManageHook
+myManageHook = composeAll
+  [ className =? "Gimp" --> doFloat
+  , isDialog --> doCenterFloat
+  , className =? ".blueman-manager-wrapped" --> doCenterFloat
+  , className =? "Pavucontrol" --> doCenterFloat
+  ]
+
+
+-- Keybinding to toggle spacing for xmobar
+-- TODO: Use me! For some reason, doesn't work (try easy config for mod keybindings?)
 myToggleStrutsKey :: XConfig Layout -> (KeyMask, KeySym)
 myToggleStrutsKey _ = (mod1Mask, xK_B)
 
+-- TODO: Add icon root to xmobar
+myLayoutPrinter :: String -> String
+myLayoutPrinter "Tall" = "<icon=/home/lulu/Documents/Untitled.xbm/>  Tall"
+myLayoutPrinter x = x
+
+
+--myLayoutHook = smartBorders
+--  . mkToggle (NOBORDERS ?? FULL ?? EOT)
+--  $ Tall 1 1/2 3/100 ||| Mirror (Tall 1 1/2 3/100) ||| Full
+
+myLayout =
+  smartBorders -- Don't show borders if only 1 window or full screen
+  . mkToggle (FULL ?? NOBORDERS ?? EOT)
+  $ tiled ||| Grid ||| Circle
+    where
+      tiled   = Tall nmaster delta ratio
+      nmaster = 1      -- Default number of windows in the master pane
+      ratio   = 1/2    -- Default proportion of screen occupied by master pane
+      delta   = 3/100  -- Percent of screen to increment by when resizing panes
+
 myXmobarPP :: PP
 myXmobarPP = def
-    { ppSep             = magenta " • "
+    { ppSep             = magenta "  •  "
     , ppTitleSanitize   = xmobarStrip
     , ppCurrent         = wrap " " "" . xmobarBorder "Top" "#8be9fd" 2
     , ppHidden          = white . wrap " " ""
@@ -69,6 +109,7 @@ myXmobarPP = def
     , ppUrgent          = red . wrap (yellow "!") (yellow "!")
     , ppOrder           = \[ws, l, _, wins] -> [ws, l, wins]
     , ppExtras          = [logTitles formatFocused formatUnfocused]
+    , ppLayout          = blue . myLayoutPrinter
     }
   where
     formatFocused   = wrap (white    "[") (white    "]") . magenta . ppWindow
@@ -92,6 +133,8 @@ myConfig myTerminal = def
   , terminal = myTerminal
   --, keys = myKeys TODO: Use myKeys and not additionalKeys
   , startupHook = myStartupHook
+  , manageHook = myManageHook
+  , layoutHook = myLayout
   }
   `additionalKeys`
   myKeys0
@@ -105,5 +148,5 @@ main = do
   xmonad
     . ewmhFullscreen
     . ewmh
-    . withEasySB (statusBarProp "xmobar" (pure myXmobarPP)) myToggleStrutsKey
+    . withEasySB (statusBarProp "xmobar" (pure myXmobarPP)) defToggleStrutsKey
     $ myConfig myTerminal

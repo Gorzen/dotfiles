@@ -31,5 +31,13 @@
   - [ ] window name + window settings (file, options, ...)?
   - [ ] Battery capacity and status
   - [ ] External disks (list, mount, unmount, power-off)
+- [ ] xmonad
+  - [ ] Add tabbed layout
+  - [ ] Keybinding to make window floating
+  - [ ] Float for pavucontrol and blueman-manager
+  - [ ] Remove border when fullscreen
+  - [ ] Colors borders
+  - [ ] Gaps
+  - [ ] Fullscreen window
 - [ ] Add a central place to define mutltiple useful nix-shells? Plus a script to easily use them?
 - [ ] Have feedback when increasing/decreasing/muting sound

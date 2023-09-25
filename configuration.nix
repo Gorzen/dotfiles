@@ -301,6 +301,8 @@ in
     xmobar
     networkmanagerapplet
     trayer
+    killall
+    gimp
   ];
 
   # Allow unfree packages

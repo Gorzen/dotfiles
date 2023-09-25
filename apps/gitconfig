@@ -27,7 +27,7 @@
 [push]
   autoSetupRemote = true
 [pull]
-  rebase = false
+  rebase = true
 [core]
   editor = nvim
   pager = less

@@ -41,3 +41,5 @@
   - [ ] Fullscreen window
 - [ ] Add a central place to define mutltiple useful nix-shells? Plus a script to easily use them?
 - [ ] Have feedback when increasing/decreasing/muting sound
+
+Could have xmobarrc and one hs file for xmonad (file imported in xmonad.hs) generated in nix for system wide colors and bar size and trayer padding (colors could be used by nvim and wezterm as well). Then I could have my own system wide color theme.

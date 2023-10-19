@@ -326,27 +326,11 @@ in
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  # Enable firewall and enable ports
+  # Enable firewall and allow specific ports
   networking.firewall = {
     enable = true;
-
-    # Got ports from `sudo netstat -lp --inet`
-
-    # Ports don't work. Stop firewall when we want kodi?
-    allowedTCPPorts = [
-      9321 # UPnP Kodi for guibase
-      9777 # UPnP Kodi
-      5000 # UPnP Kodi for ssdp
-      3702 # UPnP Kodi for ws-discovery
-    ];
-
-    allowedUDPPorts = [
-      1704 # UPnP Kodi for bcs-broker
-      1373 # UPnP Kodi for chromagrafx
-      1433 # UPnP Kodi for ms-sql-s
-      9090 # UPnP Kodi for websm
-      #1900 # UPnP
-    ];
+    allowedTCPPorts = [ ];
+    allowedUDPPorts = [ ];
   };
 
   # Copy the NixOS configuration file and link it from the resulting system

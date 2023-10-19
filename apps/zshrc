@@ -64,6 +64,7 @@ alias firmware-update='fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update'
 alias nix-store-repair='sudo nix-store --verify --check-contents --repair'
 alias nix-store-optimize='nix-store --optimize'
 alias nix-gc='sudo nix-collect-garbage --delete-old'
+alias kodi-no-fw='sudo systemctl stop firewall.service && kodi && sudo systemctl start firewall.service'
 
 # Prompt
 function _my_git_prompt {

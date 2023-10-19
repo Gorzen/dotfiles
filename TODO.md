@@ -29,19 +29,23 @@
   - [ ] cpu? memory?
   - [ ] audio/media being played?
   - [ ] window name + window settings (file, options, ...)?
-  - [ ] Battery capacity and status
+  - [ ] Battery capacity and status (check default xmobar config arch wiki, it contained battery and uptime estimate)
   - [ ] External disks (list, mount, unmount, power-off)
 - [ ] xmonad
-  - [ ] Add tabbed layout
+  - [ ] Add tabbed layout and three columns layout
   - [ ] Keybinding to make window floating
   - [ ] Float for pavucontrol and blueman-manager
   - [ ] Remove border when fullscreen
   - [ ] Colors borders
   - [ ] Gaps
   - [ ] Fullscreen window
+  - [ ] Prettify tabbed layout
+  - [ ] Some easy way to put window back on top? Not drawn beneath xmboar after recompiling and restarting xmonad
 - [ ] Add a central place to define mutltiple useful nix-shells? Plus a script to easily use them?
 - [ ] Have feedback when increasing/decreasing/muting sound
 - [ ] Show desktop environments in SDDM even if only 1
+- [ ] Try lazygit
+- [ ] Warning notification on low battery
 
 Could have xmobarrc and one hs file for xmonad (file imported in xmonad.hs) generated in nix for system wide colors and bar size and trayer padding (colors could be used by nvim and wezterm as well). Then I could have my own system wide color theme.
 For local compilation of xmonad, write placeholder file with everything undefined. That way it compiles for hls.

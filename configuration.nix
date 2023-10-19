@@ -326,6 +326,41 @@ in
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
+  # Samba for SMB shares
+  #services.samba = {
+  #  enable = true;
+
+  #  extraConfig = ''
+  #    guest account = nobody
+  #    map to guest = bad user
+  #  '';
+
+  #  shares = {
+  #   nobody_share = {
+  #     comment = "guest share";
+  #     path = "/tmp/";
+  #     public = "yes";
+  #     "only guest" = "yes";
+  #     writable = "yes";
+  #     printable = "no";
+  #   };
+  #  };
+
+  #  #shares = {
+  #  #  public = {
+  #  #    path = "/home/lulu/Videos";
+  #  #    "read only" = true;
+  #  #    browseable = "yes";
+  #  #    "guest ok" = "yes";
+  #  #    comment = "Public NixOS samba share.";
+  #  #  };
+  #  #};
+  #};
+
+  #services.samba-wsdd.enable = true;
+
+  #services.avahi.enable = true;
+
   # Enable firewall and enable ports
   networking.firewall = {
     enable = true;

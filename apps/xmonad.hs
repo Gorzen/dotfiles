@@ -19,6 +19,8 @@ import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Layout.Grid (Grid(Grid))
 import XMonad.Layout.Circle (Circle(Circle))
+import XMonad.Layout.ThreeColumns (ThreeCol(ThreeCol, ThreeColMid))
+import XMonad.Layout.Tabbed (TabbedDecoration(Tabbed), simpleTabbed)
 
 -- Increase brightness: xbacklight -inc 5
 -- Decrease brightness: xbacklight -dec 5
@@ -92,12 +94,18 @@ myLayoutPrinter x = x
 myLayout =
   smartBorders -- Don't show borders if only 1 window or full screen
   . mkToggle (FULL ?? NOBORDERS ?? EOT)
-  $ tiled ||| Grid ||| Circle
+  $ tiled ||| threeCol ||| threeColMid ||| simpleTabbed
     where
       tiled   = Tall nmaster delta ratio
       nmaster = 1      -- Default number of windows in the master pane
       ratio   = 1/2    -- Default proportion of screen occupied by master pane
       delta   = 3/100  -- Percent of screen to increment by when resizing panes
+
+      threeCol = ThreeCol arg1 arg2 arg3
+      threeColMid = ThreeColMid arg1 arg2 arg3
+      arg1 = nmaster -- how many windows initially appear in the main window.
+      arg2 = delta -- the amount to resize while resizing
+      arg3 = ratio -- the initial size of the columns
 
 myXmobarPP :: PP
 myXmobarPP = def

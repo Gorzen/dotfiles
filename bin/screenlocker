@@ -1,0 +1,31 @@
+#!/bin/sh
+
+
+# Create directory /home/lulu/Videos/Screensavers
+# Create nix derivation (pkg, module) to have a pkg for screenlocker (and saver module?)
+# Use pkgs.mpv in saver module
+# Then use it to be called in xmonad? Or called by nix itself?
+# Have dpms and suspend timers in nix variables
+
+
+
+
+# systemd listens to ACPI events (power key, suspend key, closing lid, ...)
+# and takes some actions based on it (suspend, sleep, ...)
+# https://wiki.archlinux.org/title/Power_management#ACPI_events
+
+# xss-lock reacts to systemd-events and DPMS events to lock the system
+# We will utilise xss-lock to lock based on these events (turning off screen - DPMS & going to sleep - systemd)
+# https://wiki.archlinux.org/title/Power_management#xss-lock
+
+# Set timer for DPMS to turn off screen
+xset dpms 30 30 30
+xset s off # Disable simple screensaver
+
+# Set timer for systemd to suspend (will do nothing if xautolock is already running)
+# Is there a better way than xautolock?
+xautolock -time 1 -locker "systemctl suspend" -detectsleep &
+
+# Lock screen on systemd-events and DPMS events (will no nothing if xss-lock is already running)
+xss-lock -l -- /etc/nixos/bin/lulu-xsecurelock &
+

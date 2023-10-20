@@ -1,0 +1,19 @@
+#!/bin/sh
+
+export XSECURELOCK_FONT="RobotoMono Nerd Font"
+export XSECURELOCK_PASSWORD_PROMPT="kaomoji"
+
+export XSECURELOCK_SHOW_USERNAME=1
+export XSECURELOCK_SHOW_HOSTNAME=1
+
+export XSECURELOCK_SHOW_DATETIME=1
+export XSECURELOCK_DATETIME_FORMAT="%A %d %B %Y %T"
+
+export XSECURELOCK_SAVER="/etc/nixos/bin/my_saver_mpv"
+export XSECURELOCK_LIST_VIDEOS_COMMAND='echo "/etc/nixos/test.mov"'
+
+# Not yet in xsecurelock 1.8.0 (but once xsecurelock is updated, should be here)
+export XSECURELOCK_SHOW_KEYBOARD_LAYOUT=0
+
+xsecurelock
+

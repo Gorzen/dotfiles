@@ -309,6 +309,9 @@ in
     kodi-gbm # Kodi Generic Buffer Management (as opposed to Kodi for Xorg or Kodi for Wayland)
     slop
     shotgun
+    xss-lock
+    xautolock
+    xsecurelock
   ];
 
   # Allow unfree packages

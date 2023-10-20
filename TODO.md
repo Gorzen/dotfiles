@@ -7,7 +7,6 @@
 - [ ] Re-enable nixos-hardware
 - [ ] Add bar to nvim
 - [ ] Add file tree to nvim
-- [ ] Configure xmonad
 - [ ] Clean system packages, sort in categories
 - [ ] Set rofi theme
 - [ ] Add dunst pretty theme
@@ -23,22 +22,16 @@
 - [ ] xmobar
   - [ ] Time & date
   - [ ] Sound (pavucontrol on click)
-  - [ ] Bluetooth icon (see if disabled or not) (blueman on click)
-  - [ ] Wifi (see if disabled or not + signal?) (some manager on click)
-  - [ ] Workspaces
   - [ ] cpu? memory?
   - [ ] audio/media being played?
-  - [ ] window name + window settings (file, options, ...)?
+  - [ ] Window settings (file, options, ...)?
   - [ ] Battery capacity and status (check default xmobar config arch wiki, it contained battery and uptime estimate)
   - [ ] External disks (list, mount, unmount, power-off)
+  - [ ] Prettify xmobar
 - [ ] xmonad
-  - [ ] Add tabbed layout and three columns layout
   - [ ] Keybinding to make window floating
-  - [ ] Float for pavucontrol and blueman-manager
-  - [ ] Remove border when fullscreen
   - [ ] Colors borders
   - [ ] Gaps
-  - [ ] Fullscreen window
   - [ ] Prettify tabbed layout
   - [ ] Some easy way to put window back on top? Not drawn beneath xmboar after recompiling and restarting xmonad
 - [ ] Add a central place to define mutltiple useful nix-shells? Plus a script to easily use them?

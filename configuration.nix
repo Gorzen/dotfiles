@@ -307,6 +307,8 @@ in
     mpv
     openshot-qt
     kodi-gbm # Kodi Generic Buffer Management (as opposed to Kodi for Xorg or Kodi for Wayland)
+    slop
+    shotgun
   ];
 
   # Allow unfree packages

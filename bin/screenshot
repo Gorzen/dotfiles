@@ -1,0 +1,18 @@
+#!/bin/sh
+
+screenshotsDir="$HOME/Images/Screenshots"
+filename="$screenshotsDir/$(date +%F_%H-%M-%S_%N).png"
+
+# Create screenshots directory if it doesn't exist
+if [ ! -d "$screenshotsDir" ]; then
+	mkdir -p "$screenshotsDir"
+fi
+
+# Maybe not the best way to check args?
+if [ "$1" = "--select" ]; then
+	shotgun --geometry "$(slop)" "$filename"
+else
+	# Takes a screenshot of the whole screen
+	shotgun "$filename"
+fi
+

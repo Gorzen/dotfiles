@@ -50,7 +50,6 @@
 - [ ] Show menu when pressing power button on laptop
 - [ ] Configure auto sleep (screen and sleep) computer
 - [ ] Add screen lock
-- [ ] Add screenshot possibility (move binary from HOME to config)
 
 Could have xmobarrc and one hs file for xmonad (file imported in xmonad.hs) generated in nix for system wide colors and bar size and trayer padding (colors could be used by nvim and wezterm as well). Then I could have my own system wide color theme. Could also use it in rofi or dmenu or others.
 For local compilation of xmonad, write placeholder file with everything undefined. That way it compiles for hls. Or generate both files? In home and in config.

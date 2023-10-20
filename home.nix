@@ -43,6 +43,15 @@ in
     "nvim/init.lua".source = ./apps/nvim.lua;
   };
 
+  home.file = {
+    # User scripts
+    ".local/bin" = {
+      source = ./bin;
+      executable = true;
+      recursive = true;
+    };
+  };
+
   # Dunst config (will create a systemd service, necessary for notifications to work correctly)
   services.dunst = {
     enable = true;

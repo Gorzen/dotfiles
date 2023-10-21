@@ -79,14 +79,9 @@ function _my_git_prompt {
       MY_GIT_BRANCH=$(git rev-parse --short HEAD 2> /dev/null)
     fi
 
-    MY_GIT_BRANCH="%{$fg[blue]%} @ %{$fg[green]%}$MY_GIT_BRANCH"
+    MY_GIT_BRANCH=" %{$fg[blue]%}@%{$reset_color%} %{$fg[green]%}$MY_GIT_BRANCH%{$reset_color%}"
 
     MY_GIT_STATUS=$(git status --short --branch 2> /dev/null)
-
-    # Check if dirty
-    if [ -n "$(echo $MY_GIT_STATUS | tail -n +2 2> /dev/null)" ]; then
-      MY_GIT_DIRTY="%{$fg[red]%} x"
-    fi
 
     # Check tracking status
     MY_GIT_TRACKING_DATA=$(echo $MY_GIT_STATUS | head -n 1 2> /dev/null)
@@ -94,16 +89,22 @@ function _my_git_prompt {
     MY_GIT_TRACKING_BEHIND=""
 
     if [[ $MY_GIT_TRACKING_DATA =~ '\[ahead ([0-9]+)' ]]; then
-      MY_GIT_TRACKING_AHEAD="%{$reset_color%}↑%{$fg[green]%}$match[1]"
+      MY_GIT_TRACKING_AHEAD="↑%{$fg[green]%}$match[1]%{$reset_color%}"
     fi
 
     if [[ $MY_GIT_TRACKING_DATA =~ 'behind ([0-9]+)\]' ]]; then
-      MY_GIT_TRACKING_BEHIND="%{$reset_color%}↓%{$fg[red]%}$match[1]"
+      MY_GIT_TRACKING_BEHIND="↓%{$fg[red]%}$match[1]%{$reset_color%}"
     fi
 
     if [ -n "$MY_GIT_TRACKING_AHEAD$MY_GIT_TRACKING_BEHIND" ]; then
-      MY_GIT_DIFF_REMOTE="%{$reset_color%} (%{$fg[green]%}$MY_GIT_TRACKING_AHEAD%{$reset_color%}%{$fg[red]%}$MY_GIT_TRACKING_BEHIND%{$reset_color%})"
+      MY_GIT_DIFF_REMOTE=" ($MY_GIT_TRACKING_AHEAD$MY_GIT_TRACKING_BEHIND)"
     fi
+
+    # Check if dirty
+    if [ -n "$(echo $MY_GIT_STATUS | tail -n +2 2> /dev/null)" ]; then
+      MY_GIT_DIRTY=" %{$fg[red]%}x%{$reset_color%}"
+    fi
+
 
     unset MY_GIT_STATUS
     unset MY_GIT_TRACKING_DATA
@@ -119,4 +120,8 @@ function _my_git_prompt {
 }
 
 # Don't show username or hostname
-PROMPT="%{$fg[yellow]%}%~\$(_my_git_prompt)%{$reset_color%} %% "
+PROMPT_PATH="%{$fg[yellow]%}%~%{$reset_color%}"
+PROMPT_BACKGROUND_JOBS="%(1j. %{$fg[magenta]%}%j%{$reset_color%}.)"
+PROMPT="$PROMPT_PATH\$(_my_git_prompt)$PROMPT_BACKGROUND_JOBS%{$reset_color%} %% "
+unset PROMPT_PATH
+unset PROMPT_BACKGROUND_JOBS

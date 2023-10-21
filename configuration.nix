@@ -18,6 +18,7 @@ in
       <home-manager/nixos>
       ./modules/default-cursor.nix
       ./modules/sddm-face-icon.nix
+      ./modules/lock-screen.nix
     ];
 
 
@@ -158,6 +159,22 @@ in
       enable = true;
       enableContribAndExtras = true;
     };
+
+    # My own lockscreen
+    # Note: It won't run itself by default, need to call it to start it (e.g. in xmonad)
+    lockScreen = {
+      enable = true;
+      dpmsTimer = 150;
+    };
+  };
+
+  # Set logind idle time to run systemctl suspend
+  # Timer will usually be triggered after DPMS (see services.xserver.lockScreen) as xss-lock sets systemd's idle status
+  services.logind = {
+    extraConfig = ''
+      IdleAction=suspend
+      IdleActionSec=300
+    '';
   };
 
   # Enable xdg-portal
@@ -309,9 +326,6 @@ in
     kodi-gbm # Kodi Generic Buffer Management (as opposed to Kodi for Xorg or Kodi for Wayland)
     slop
     shotgun
-    xss-lock
-    xautolock
-    xsecurelock
   ];
 
   # Allow unfree packages

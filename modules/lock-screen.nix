@@ -1,4 +1,4 @@
-# Module to set a pretty lock with video play (using xsecurelock+mpv)
+# Module to set a pretty lock with video play (using xsecurelock + mpv)
 
 { config, pkgs, lib, ... }:
 
@@ -12,33 +12,14 @@ let
   # It leads to infinite recursion. So, it's much simpler to create 2 simple packages
 
   # Trivial package builders can be found here: https://github.com/NixOS/nixpkgs/blob/808125fff694e4eb4c73952d501e975778ffdacd/pkgs/build-support/trivial-builders.nix#L108
-  mkLockScreenPkg = lockscreen: saver_lockscreen:
-    pkgs.runCommand "my-lock-screen" {} ''
-      n=$out/bin
-      nls="$n/lockscreen"
-      nsls="$n/saver_lockscreen"
 
-      mkdir -p $out/bin
+  # Directory with ./bin/script to be installed in system packages (simple script files can't be installed in system packages)
+  mkLockScreenPkg = lockscreen: pkgs.writeShellScriptBin "lulu_lockscreen" lockscreen;
+  # Simple script file
+  mkSaverLockScreenScript = saver_lockscreen: pkgs.writeShellScript "saver_lulu_lockscreen" saver_lockscreen;
 
-      echo -n "${''
-        #!${pkgs.runtimeShell}
-        ${lockscreen}
-      ''}" > "$nls"
-
-      echo -n "${''
-        #!${pkgs.runtimeShell}
-        ${saver_lockscreen}
-      ''}" > "$nsls"
-
-      # Check syntax
-      ${pkgs.stdenv.shell} -n $nls
-      ${pkgs.stdenv.shell} -n $nsls
-
-      chmod +x "$nls"
-      chmod +x "$nsls"
-    '';
-
-  lockScreenPkg = mkLockScreenPkg cfg.lockscreen cfg.saver_lockscreen;
+  saverLockScreenScript = mkSaverLockScreenScript cfg.saver_lockscreen;
+  lockScreenPkg = mkLockScreenPkg cfg.lockscreen;
   
 in 
 
@@ -59,7 +40,7 @@ in
 
       screenSaverListVideosCommand = mkOption {
         type = types.str;
-        default = ''${pkgs.findutils}/bin/find \$HOME/Videos/Screensaver -type f'';
+        default = "${pkgs.findutils}/bin/find $HOME/Videos/Screensaver -type f";
         description = "Command to run to find videos to play in the screen saver";
       };
 
@@ -77,22 +58,24 @@ in
         default =
           # Set timer for DPMS to turn off screen
           ''
-          xset dpms 60 60 60
-          xset s off # Disable simple screensaver
+          ${pkgs.xorg.xset}/bin/xset dpms ${toString cfg.dpmsTimer} ${toString cfg.dpmsTimer} ${toString cfg.dpmsTimer}
+          ${pkgs.xorg.xset}/bin/xset s ${toString cfg.dpmsTimer} ${toString cfg.dpmsTimer}
           '' +
 
-          # Lock screen on systemd-events and DPMS events (will no nothing if xss-lock is already running)
-          # Note: xss-lock sets the systemd idle status (starting systemd's idle timer until idle action is taken)
-          # Note 2: XSECURELOCK_SHOW_KEYBOARD_LAYOUT is not in xsecurelock 1.8.0 (current version). But once xsecurelock is updated, it should be here and work
+          # Lock screen on systemd-events and DPMS events (will do nothing if xss-lock is already running)
+          # Note: xss-lock sets the systemd idle status
+          #   This starts systemd's idle timer, utlimately triggering the idle action - usually suspend
+          #   Idle action and timer are configured in logind
+          # Note 2: XSECURELOCK_SHOW_KEYBOARD_LAYOUT is not in xsecurelock 1.8.0 (current version). But once xsecurelock is updated, it should be here and working
           ''
-          xss-lock -l -- env \
-            XSECURELOCK_FONT=\"RobotoMono Nerd Font\" \
-            XSECURELOCK_PASSWORD_PROMPT=\"kaomoji\" \
+          ${pkgs.xss-lock}/bin/xss-lock -l -- env \
+            XSECURELOCK_FONT="RobotoMono Nerd Font" \
+            XSECURELOCK_PASSWORD_PROMPT="kaomoji" \
             XSECURELOCK_SHOW_USERNAME=1 \
             XSECURELOCK_SHOW_HOSTNAME=1 \
             XSECURELOCK_SHOW_DATETIME=1 \
-            XSECURELOCK_DATETIME_FORMAT=\"%A %d %B %Y %T\" \
-            XSECURELOCK_SAVER=\"${''TODO''}/bin/saver_lockscreen\" \
+            XSECURELOCK_DATETIME_FORMAT="%A %d %B %Y %T" \
+            XSECURELOCK_SAVER="${saverLockScreenScript}" \
             XSECURELOCK_SHOW_KEYBOARD_LAYOUT=0 \
             ${pkgs.xsecurelock}/bin/xsecurelock &
           '';
@@ -104,18 +87,18 @@ in
         default = ''
           # Run mpv in a loop so we can quickly restart mpv in case it exits (after showing the last video).
           while true; do
-            ${pkgs.stdenv.shell} -c \"${cfg.screenSaverListVideosCommand}\" | shuf | head -n 256 |\
+            ${pkgs.stdenv.shell} -c "${cfg.screenSaverListVideosCommand}" | ${pkgs.coreutils}/bin/shuf | ${pkgs.coreutils}/bin/head -n 256 | \
             ${pkgs.mpv}/bin/mpv \
               --no-input-terminal \
               --really-quiet \
               --no-stop-screensaver \
-              --wid=\"\$XSCREENSAVER_WINDOW\" \
+              --wid="$XSCREENSAVER_WINDOW" \
               --no-audio \
               --shuffle \
               --loop-playlist=inf \
               --playlist=- &
             # Avoid spinning if mpv exits immediately, but don't wait to restart mpv in the common case.
-            sleep 1
+            ${pkgs.coreutils}/bin/sleep 1
             wait
           done
         '';
@@ -124,7 +107,8 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Install the derivation, to be usable in other nix-files with pkgs.my-lock-screen
+    # Install the lockscreen pkg in the system such that it can be called by other programs to set it up (e.g. in a window manager)
+    # The saver lockscreen doesn't need to be in the system packages
     environment.systemPackages = [
       lockScreenPkg
     ];

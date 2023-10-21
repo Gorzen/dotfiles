@@ -30,10 +30,12 @@
   - [ ] Prettify xmobar
 - [ ] xmonad
   - [ ] Keybinding to make window floating
+  - [ ] Way to easily resize floating windows
   - [ ] Colors borders
   - [ ] Gaps
   - [ ] Prettify tabbed layout
   - [ ] Some easy way to put window back on top? Not drawn beneath xmboar after recompiling and restarting xmonad
+  - [ ] Add keybindings for screenshots
 - [ ] Add a central place to define mutltiple useful nix-shells? Plus a script to easily use them?
 - [ ] Have feedback when increasing/decreasing/muting sound
 - [ ] Show desktop environments in SDDM even if only 1
@@ -41,8 +43,6 @@
 - [ ] Warning notification on low battery
 - [ ] Is tabbed layout useful since can change apps in fullscreen layout? If keep app names are in xmobar, fullscreen is basically tabbed. If not, can have tabbed.
 - [ ] Show menu when pressing power button on laptop
-- [ ] Configure auto sleep (screen and sleep) computer
-- [ ] Add screen lock
 
 Could have xmobarrc and one hs file for xmonad (file imported in xmonad.hs) generated in nix for system wide colors and bar size and trayer padding (colors could be used by nvim and wezterm as well). Then I could have my own system wide color theme. Could also use it in rofi or dmenu or others.
 For local compilation of xmonad, write placeholder file with everything undefined. That way it compiles for hls. Or generate both files? In home and in config.

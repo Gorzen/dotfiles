@@ -183,8 +183,11 @@ in
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
-  # Should be enable by default, but enable XDG Icon Theme spefication (themes in /usr/share/icons)
+  # Should be enabled by default, but enable XDG Icon Theme spefication (themes in /usr/share/icons)
   xdg.icons.enable = true;
+
+  # Should be enabled by default, but enable XDG Autostart specification
+  xdg.autostart.enable = true;
 
   # Set cursor theme in XDG, globally
   environment.defaultCursor = {
@@ -275,6 +278,9 @@ in
   # Enable fwupd service, to allow updating firmware
   services.fwupd.enable = true;
 
+  # Enable polkit (for graphical apps to be able to ask for root privileges)
+  security.polkit.enable = true;
+
   # Home manager
   home-manager = {
     useGlobalPkgs = true; # Use packages configured at system level
@@ -328,6 +334,8 @@ in
     shotgun
     gparted
     exfatprogs
+    polkit_gnome # Use gnome authentification agent for polkit
+    dex # To autostart programs following the XDG Autostart specification
   ];
 
   # Allow unfree packages

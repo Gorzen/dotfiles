@@ -53,9 +53,12 @@ myKeys0 =
   , ((0, xF86XK_MonBrightnessDown), spawn "xbacklight -dec 5")
   ]
 
+-- Put some of these in modules for XDG Autostart?
 myStartupHook :: X ()
 myStartupHook = do
-  -- Otherwise, xmonad still uses X cursor by default
+  -- Start applications following the XDG Autostart specification (nm-applet, blueman-applet, picom, polkit agent, ...)
+  spawnOnce "dex -a"
+  -- Set cursor to left pointer. Otherwise, xmonad uses the X cursor by default
   spawn "xsetroot -cursor_name left_ptr"
   spawnOnce setWallpaper
   spawnOnce "lulu_lockscreen"
@@ -63,9 +66,7 @@ myStartupHook = do
   spawn "sleep 2 && trayer --edge top --align right --SetDockType true \
             \--expand true --height 22 --width 6 --iconspacing 8 \
             \--tint 0x282c34 --transparent true --alpha 0 \
-            \--distancefrom right --distance 700" -- xmobar size has to be stable
-  spawnOnce "nm-applet"
-  spawnOnce "blueman-applet"
+            \--distancefrom right --distance 700" -- xmobar size has to be stable (TODO: configure this with nix)
 
 
 myManageHook :: ManageHook

@@ -18,7 +18,7 @@ in
       <home-manager/nixos>
       ./modules/default-cursor.nix
       ./modules/sddm-face-icon.nix
-      ./modules/lock-screen.nix
+      ./modules/screen-saver.nix
     ];
 
 
@@ -160,9 +160,10 @@ in
       enableContribAndExtras = true;
     };
 
-    # My own lockscreen
+    # My screen saver
     # Note: It won't run itself by default, need to call it to start it (e.g. in xmonad)
-    lockScreen = {
+    # TODO: Could utilize XDG Autostart?
+    screenSaver = {
       enable = true;
       dpmsTimer = 150;
     };

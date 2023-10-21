@@ -1,4 +1,4 @@
-# Module to set a pretty lock with video play (using xsecurelock + mpv)
+# Module to configure a pretty screen saver with video play (using xsecurelock + mpv)
 
 { config, pkgs, lib, ... }:
 
@@ -6,47 +6,50 @@ with lib;
 
 let
   
-  cfg = config.services.xserver.lockScreen;
+  cfg = config.services.xserver.screenSaver;
 
-  # Because lockscreen needs to call saver_lockscreen, nix can't generate the package if the package needs to access itself (derivation not here -> don't know the path -> can't build)
-  # It leads to infinite recursion. So, it's much simpler to create 2 simple packages
+  # Because enable_screen-saver needs to call mpv-module_screen-saver, nix can't generate the package if the package needs to access itself (derivation not here -> don't know the path -> can't build)
+  # It leads to infinite recursion. So, it's much simpler to put the mpv module in a separate pkg
 
   # Trivial package builders can be found here: https://github.com/NixOS/nixpkgs/blob/808125fff694e4eb4c73952d501e975778ffdacd/pkgs/build-support/trivial-builders.nix#L108
 
-  # Directory with ./bin/script to be installed in system packages (simple script files can't be installed in system packages)
-  mkLockScreenPkg = lockscreen: pkgs.writeShellScriptBin "lulu_lockscreen" lockscreen;
+  # Directory with ./bin/enable_screen-saver to be installed in system packages (simple script files can't be installed in system packages)
+  mkEnableScreenSaverPkg = enable_screenSaver: pkgs.writeShellScriptBin "enable_screen-saver" enable_screenSaver;
+  # Directory with ./bin/disable_screen-saver to be installed in system packages (simple script files can't be installed in system packages)
+  mkDisableScreenSaverPkg = disable_screenSaver: pkgs.writeShellScriptBin "disable_screen-saver" disable_screenSaver;
   # Simple script file
-  mkSaverLockScreenScript = saver_lockscreen: pkgs.writeShellScript "saver_lulu_lockscreen" saver_lockscreen;
+  mkMpvModuleScreenSaverScript = mpvModule_screenSaver: pkgs.writeShellScript "mpv-module_screen-saver" mpvModule_screenSaver;
 
-  saverLockScreenScript = mkSaverLockScreenScript cfg.saver_lockscreen;
-  lockScreenPkg = mkLockScreenPkg cfg.lockscreen;
+  enableScreenSaverPkg = mkEnableScreenSaverPkg cfg.screenSaver;
+  disableScreenSaverPkg = mkDisableScreenSaverPkg "xset s off -dpms";
+  mpvModuleScreenSaverScript = mkMpvModuleScreenSaverScript cfg.mpvModule_screenSaver;
   
 in 
 
 {
   options = {
-    services.xserver.lockScreen = {
+    services.xserver.screenSaver = {
       enable = mkOption {
         type = types.bool;
         default = false;
-        description = "Wether to enable this lock screen module";
+        description = "Wether to enable this screen saver module";
       };
 
       dpmsTimer = mkOption {
         type = types.ints.unsigned; # Non-negative integer
         default = 600;
-        description = "The timer to set for DPMS in the lockscreen script";
+        description = "The timer to set for DPMS in the screen saver";
       };
 
       screenSaverListVideosCommand = mkOption {
         type = types.str;
-        default = "${pkgs.findutils}/bin/find $HOME/Videos/Screensaver -type f";
+        default = "${pkgs.findutils}/bin/find $HOME/Videos/ScreenSaver -type f";
         description = "Command to run to find videos to play in the screen saver";
       };
 
-      lockscreen = mkOption {
+      screenSaver = mkOption {
         type = types.str;
-        description = "The script to setup the lockscreen with xss-lock and set the DPMS timers (timers for suspend should be setup in systemd using logind)";
+        description = "The script to enable the screen saver with xss-lock and set the DPMS timers (timers for suspend should be setup in systemd using logind)";
 
         # systemd listens to ACPI events (power key, suspend key, closing lid, ...)
         # and takes some actions based on it (suspend, sleep, ...)
@@ -58,8 +61,8 @@ in
         default =
           # Set timer for DPMS to turn off screen
           ''
+          ${pkgs.xorg.xset}/bin/xset s ${toString cfg.dpmsTimer} ${toString cfg.dpmsTimer} +dpms
           ${pkgs.xorg.xset}/bin/xset dpms ${toString cfg.dpmsTimer} ${toString cfg.dpmsTimer} ${toString cfg.dpmsTimer}
-          ${pkgs.xorg.xset}/bin/xset s ${toString cfg.dpmsTimer} ${toString cfg.dpmsTimer}
           '' +
 
           # Lock screen on systemd-events and DPMS events (will do nothing if xss-lock is already running)
@@ -75,17 +78,17 @@ in
             XSECURELOCK_SHOW_HOSTNAME=1 \
             XSECURELOCK_SHOW_DATETIME=1 \
             XSECURELOCK_DATETIME_FORMAT="%A %d %B %Y %T" \
-            XSECURELOCK_SAVER="${saverLockScreenScript}" \
+            XSECURELOCK_SAVER="${mpvModuleScreenSaverScript}" \
             XSECURELOCK_SHOW_KEYBOARD_LAYOUT=0 \
             ${pkgs.xsecurelock}/bin/xsecurelock &
           '';
       };
 
-      saver_lockscreen = mkOption {
+      mpvModule_screenSaver = mkOption {
         type = types.str;
-        description = "The saver module for the screenlock (xsecurelock)";
+        description = "The mpv module for the screen saver (uses xsecurelock)";
         default = ''
-          # Run mpv in a loop so we can quickly restart mpv in case it exits (after showing the last video).
+          # Run mpv in a loop so that we can quickly restart mpv in case it exits (after showing the last video).
           while true; do
             ${pkgs.stdenv.shell} -c "${cfg.screenSaverListVideosCommand}" | ${pkgs.coreutils}/bin/shuf | ${pkgs.coreutils}/bin/head -n 256 | \
             ${pkgs.mpv}/bin/mpv \
@@ -107,10 +110,12 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Install the lockscreen pkg in the system such that it can be called by other programs to set it up (e.g. in a window manager)
-    # The saver lockscreen doesn't need to be in the system packages
+    # Install the screen saver pkg in the system such that it can be called by other programs to set it up (e.g. in a window manager)
+    # Also install the pkg to disable the screen saver for convenience
+    # The mpv module doesn't need to be in the system packages
     environment.systemPackages = [
-      lockScreenPkg
+      enableScreenSaverPkg
+      disableScreenSaverPkg
     ];
   };
 }

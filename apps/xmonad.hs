@@ -61,7 +61,7 @@ myStartupHook = do
   -- Set cursor to left pointer. Otherwise, xmonad uses the X cursor by default
   spawn "xsetroot -cursor_name left_ptr"
   spawnOnce setWallpaper
-  spawnOnce "lulu_lockscreen"
+  spawnOnce "enable_screen-saver"
   spawn "killall trayer"
   spawn "sleep 2 && trayer --edge top --align right --SetDockType true \
             \--expand true --height 22 --width 6 --iconspacing 8 \

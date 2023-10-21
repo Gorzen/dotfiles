@@ -327,6 +327,7 @@ in
     slop
     shotgun
     gparted
+    exfatprogs
   ];
 
   # Allow unfree packages

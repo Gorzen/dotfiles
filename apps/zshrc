@@ -40,9 +40,9 @@ unset zsh_syntax_highlighting_path
 # ------------------
 
 # History options
-HISTFILE=$ZDOTDIR/zsh_history
-HISTSIZE="1000000"
-SAVEHIST="1000000"
+export HISTFILE=$ZDOTDIR/zsh_history
+export HISTSIZE="1000000"
+export SAVEHIST="1000000"
 
 setopt HIST_FCNTL_LOCK
 setopt HIST_IGNORE_DUPS
@@ -53,7 +53,7 @@ setopt EXTENDED_HISTORY
 
 # LS_COLORS (use vivid to generate them)
 # TODO: Could have my own theme in vivid once I have my own color scheme defined using nix
-LS_COLORS=$(vivid generate snazzy)
+export LS_COLORS=$(vivid generate snazzy)
 
 # Aliases
 alias ..='cd ..'
@@ -130,6 +130,6 @@ function _my_git_prompt {
 # Don't show username or hostname
 PROMPT_PATH="%{$fg[yellow]%}%~%{$reset_color%}"
 PROMPT_BACKGROUND_JOBS="%(1j. %{$fg[magenta]%}%j%{$reset_color%}.)"
-PROMPT="$PROMPT_PATH\$(_my_git_prompt)$PROMPT_BACKGROUND_JOBS%{$reset_color%} %% "
+export PROMPT="$PROMPT_PATH\$(_my_git_prompt)$PROMPT_BACKGROUND_JOBS%{$reset_color%} %% "
 unset PROMPT_PATH
 unset PROMPT_BACKGROUND_JOBS

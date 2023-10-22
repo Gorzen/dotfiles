@@ -37,14 +37,6 @@ else
 fi
 unset zsh_syntax_highlighting_path
 
-ls_colors_path=$ZDOTDIR/plugins/ls-colors/lscolors.sh
-if [ -f $ls_colors_path ]; then
-  source $ls_colors_path
-else
-  echo "Missing plugin: ls-colors"
-fi
-unset ls_colors_path
-
 # ------------------
 
 # History options
@@ -58,6 +50,10 @@ setopt HIST_IGNORE_SPACE
 unsetopt HIST_EXPIRE_DUPS_FIRST
 setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
+
+# LS_COLORS (use vivid to generate them)
+# TODO: Could have my own theme in vivid once I have my own color scheme defined using nix
+LS_COLORS=$(vivid generate snazzy)
 
 # Aliases
 alias ..='cd ..'

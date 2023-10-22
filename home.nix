@@ -22,14 +22,6 @@ let
     sha256 = "sha256-gOG0NLlaJfotJfs+SUhGgLTNOnGLjoqnUp54V9aFJg8=";
   };
 
-  # ls colors
-  lsColors = pkgs.fetchFromGitHub {
-    owner = "trapd00r";
-    repo = "LS_COLORS";
-    rev = "c94fa633ee6d5ae1e777c5a807eee8a47b5e9cc5"; # master (last commit: 2023-08-30)
-    sha256 = "sha256-csDuAEehD39FIQnNY4TbzZdVTVOuK2F5A951dbXdkh8=";
-  };
-
   # ---------------
 
 in
@@ -45,7 +37,6 @@ in
     "zsh/.zshrc".source = ./apps/zshrc;
     "zsh/plugins/zsh-autosuggestions".source = zshAutosuggestions;
     "zsh/plugins/zsh-syntax-highlighting".source = zshSyntaxHighlighting;
-    "zsh/plugins/ls-colors".source = lsColors;
 
     "wezterm/wezterm.lua".source = ./apps/wezterm.lua;
     "xmonad/xmonad.hs".source = ./apps/xmonad.hs;

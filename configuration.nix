@@ -348,6 +348,7 @@ in
     polkit_gnome # Use gnome authentification agent for polkit
     dex # To autostart programs following the XDG Autostart specification
     qbittorrent
+    vivid
   ];
 
   # Allow unfree packages

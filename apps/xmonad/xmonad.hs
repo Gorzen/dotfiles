@@ -83,9 +83,11 @@ myManageHook = composeAll
 myToggleStrutsKey :: XConfig Layout -> (KeyMask, KeySym)
 myToggleStrutsKey _ = (mod1Mask, xK_B)
 
--- TODO: Add icon root to xmobar
+-- TODO: Add icon root to xmobar to set path for icons
 myLayoutPrinter :: String -> String
-myLayoutPrinter "Tall" = "<icon=/home/lulu/Documents/Icons-Xmonad/Untitled.xbm/>  Tall"
+myLayoutPrinter "Full" = "<icon=/home/lulu/.config/xmonad/icons/layout-full.xbm/>  Full"
+myLayoutPrinter "Tall" = "<icon=/home/lulu/.config/xmonad/icons/layout-tall.xbm/>  Tall"
+myLayoutPrinter "ThreeCol" = "<icon=/home/lulu/.config/xmonad/icons/layout-three-col.xbm/>  ThreeCol"
 myLayoutPrinter x = x
 
 
@@ -96,7 +98,7 @@ myLayoutPrinter x = x
 myLayout =
   smartBorders -- Don't show borders if only 1 window or full screen
   . mkToggle (FULL ?? NOBORDERS ?? EOT)
-  $ tiled ||| threeCol ||| threeColMid ||| simpleTabbed
+  $ tiled ||| threeColMid
     where
       tiled   = Tall nmaster delta ratio
       nmaster = 1      -- Default number of windows in the master pane

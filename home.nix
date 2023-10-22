@@ -38,9 +38,12 @@ in
     "zsh/plugins/zsh-autosuggestions".source = zshAutosuggestions;
     "zsh/plugins/zsh-syntax-highlighting".source = zshSyntaxHighlighting;
 
+    # Xmonad
+    "xmonad/xmonad.hs".source = ./apps/xmonad/xmonad.hs;
+    "xmonad/icons".source = ./apps/xmonad/icons;
+    "xmobar/xmobarrc".source = ./apps/xmonad/xmobarrc;
+
     "wezterm/wezterm.lua".source = ./apps/wezterm.lua;
-    "xmonad/xmonad.hs".source = ./apps/xmonad.hs;
-    "xmobar/xmobarrc".source = ./apps/xmobarrc;
     "git/config".source = ./apps/gitconfig;
     "nvim/init.lua".source = ./apps/nvim.lua;
   };

@@ -308,7 +308,7 @@ in
     vscodium
     nnn
     feh
-    sxiv
+    nsxiv
     libsForQt5.qt5.qtgraphicaleffects # Needed by sddm chili theme
     gnumake
     glib

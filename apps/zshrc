@@ -40,16 +40,21 @@ unset zsh_syntax_highlighting_path
 # ------------------
 
 # History options
-export HISTFILE=$ZDOTDIR/zsh_history
+# Number of commands that are loaded into memory from the history file
 export HISTSIZE="1000000"
+# Number of commands that are stored in the zsh history file
 export SAVEHIST="1000000"
+export HISTFILE=$ZDOTDIR/zsh_history
 
 setopt HIST_FCNTL_LOCK
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 unsetopt HIST_EXPIRE_DUPS_FIRST
 setopt SHARE_HISTORY
+# Add timestamp to history
 setopt EXTENDED_HISTORY
+# Append history list to the history file rather than replace it
+setopt APPEND_HISTORY
 
 # LS_COLORS (use vivid to generate them)
 # TODO: Could have my own theme in vivid once I have my own color scheme defined using nix
@@ -73,6 +78,8 @@ alias nix-store-repair='sudo nix-store --verify --check-contents --repair'
 alias nix-store-optimize='nix-store --optimize'
 alias nix-gc='sudo nix-collect-garbage --delete-old'
 alias kodi-no-fw='sudo systemctl stop firewall.service && kodi && sudo systemctl start firewall.service'
+# See full history with date in less
+alias hist='history -i 1 | less'
 
 # Prompt
 function _my_git_prompt {

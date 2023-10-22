@@ -18,7 +18,9 @@ zstyle ':completion:*' menu select
 # Use emacs keymap as the default.
 bindkey -e
 
-# Add plugins
+# -- Add plugins --
+# TODO: Could create a function for those?
+
 zsh_autosuggestions_path=$ZDOTDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 if [ -f $zsh_autosuggestions_path ]; then
   source $zsh_autosuggestions_path
@@ -34,6 +36,16 @@ else
   echo "Missing plugin: zsh-syntax-highlighting"
 fi
 unset zsh_syntax_highlighting_path
+
+ls_colors_path=$ZDOTDIR/plugins/ls-colors/lscolors.sh
+if [ -f $ls_colors_path ]; then
+  source $ls_colors_path
+else
+  echo "Missing plugin: ls-colors"
+fi
+unset ls_colors_path
+
+# ------------------
 
 # History options
 HISTFILE=$ZDOTDIR/zsh_history

@@ -85,7 +85,7 @@ myToggleStrutsKey _ = (mod1Mask, xK_B)
 
 -- TODO: Add icon root to xmobar
 myLayoutPrinter :: String -> String
-myLayoutPrinter "Tall" = "<icon=/home/lulu/Documents/Untitled.xbm/>  Tall"
+myLayoutPrinter "Tall" = "<icon=/home/lulu/Documents/Icons-Xmonad/Untitled.xbm/>  Tall"
 myLayoutPrinter x = x
 
 

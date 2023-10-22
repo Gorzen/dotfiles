@@ -288,6 +288,12 @@ in
     users."${myVars.userName}" = import ./home.nix;
   };
 
+  qt = {
+    enable = true;
+    style = "gtk2";
+    platformTheme = "gtk2";
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -337,6 +343,7 @@ in
     exfatprogs
     polkit_gnome # Use gnome authentification agent for polkit
     dex # To autostart programs following the XDG Autostart specification
+    qbittorrent
   ];
 
   # Allow unfree packages

@@ -8,6 +8,7 @@
 - [ ] Add bar to nvim
 - [ ] Add file tree to nvim
 - [ ] Clean system packages, sort in categories
+- [ ] Clean configuration.nix, sort it
 - [ ] Set rofi theme
 - [ ] Add dunst pretty theme
 - [ ] Put wallpapers in a git repo?

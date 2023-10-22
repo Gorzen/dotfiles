@@ -114,6 +114,8 @@ in
     XCOMPOSECACHE = "${XDG_CACHE_HOME}/X11/xcompose";
     # zsh
     ZDOTDIR = "${XDG_CONFIG_HOME}/zsh";
+    # GTK 2
+    GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";
   };
 
   # Configure xserver
@@ -288,6 +290,8 @@ in
     users."${myVars.userName}" = import ./home.nix;
   };
 
+  # Use GTK themes for Qt applications
+  # Note: GTK themes are configured using home-manager
   qt = {
     enable = true;
     style = "gtk2";

@@ -64,5 +64,8 @@ in
     theme.name = myVars.themes.gtk.name;
     iconTheme.name = myVars.themes.icon.name;
     cursorTheme.name = myVars.themes.cursor.name;
+
+    # Move GTK 2 config from home (GTK2_RC_FILES needs to match in environment variables)
+    gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
   };
 }

@@ -285,6 +285,10 @@ in
   # Enable polkit (for graphical apps to be able to ask for root privileges)
   security.polkit.enable = true;
 
+  # Gnome virtual filesystem
+  # Provide mounting and trash functionality for file managers
+  services.gvfs.enable = true;
+
   # Home manager
   home-manager = {
     useGlobalPkgs = true; # Use packages configured at system level
@@ -350,6 +354,7 @@ in
     dex # To autostart programs following the XDG Autostart specification
     qbittorrent
     vivid
+    xfce.thunar
   ];
 
   # Allow unfree packages

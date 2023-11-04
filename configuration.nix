@@ -116,6 +116,8 @@ in
     ZDOTDIR = "${XDG_CONFIG_HOME}/zsh";
     # GTK 2
     GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";
+    # Kodi
+    KODI_DATA="${XDG_DATA_HOME}/kodi";
   };
 
   # Configure xserver

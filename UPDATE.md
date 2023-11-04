@@ -19,19 +19,3 @@ Use this alias to upgrade:
 alias firmware-update='fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update'
 ```
 
-## Rustup - Rust
-
-Install and set default toolchain as stable
-
-```sh
-rustup default stable
-```
-
-Update Rust toolchains
-
-```sh
-# self-update is disabled in nix's build of rustup
-# any updates to rustup will need to be fetched with nix
-rustup update
-```
-

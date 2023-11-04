@@ -165,6 +165,7 @@ in
     # My screen saver
     # Note: It won't run itself by default, need to call it to start it (e.g. in xmonad)
     # TODO: Could utilize XDG Autostart?
+    # TODO: Add dpmsTimer and systemd idle timer in my variables
     screenSaver = {
       enable = true;
       dpmsTimer = 150;

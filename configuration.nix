@@ -355,6 +355,7 @@ in
     qbittorrent
     vivid
     xfce.thunar
+    bat
   ];
 
   # Allow unfree packages

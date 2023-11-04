@@ -449,26 +449,17 @@ end
 local servers = {
   -- clangd = {},
   -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
+  --pyright = {},
+  --rust_analyzer = {},
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
-  lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
-  },
-}
-
--- Setup Haskell Language Server through simple nvim-lspconfig
--- mason.nvim uses ghcup which is not really supported on NixOS
-require('lspconfig')['hls'].setup {
-  capabilities = capabilities,
-  on_attach = on_attach,
-  settings = {},
-  filetypes = {},
+  --lua_ls = {
+  --  Lua = {
+  --    workspace = { checkThirdParty = false },
+  --    telemetry = { enable = false },
+  --  },
+  --},
 }
 
 -- Setup neovim lua configuration
@@ -478,23 +469,81 @@ require('neodev').setup()
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
+-- Use simple nvim-lspconfig to enable language servers
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+
+-- Lua
+if vim.fn.executable('lua-language-server') == 1 then
+  require('lspconfig')['lua_ls'].setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+      Lua = {
+        workspace = { checkThirdParty = false },
+        telemetry = { enable = false },
+      },
+    },
+    filetypes = {},
+  }
+end
+
+-- Python
+if vim.fn.executable('pyright-langserver') == 1 then
+  require('lspconfig')['pyright'].setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {},
+    filetypes = {},
+  }
+end
+
+-- Scala
+--if vim.fn.executable('metals') == 1 then
+--  require('lspconfig')['metals'].setup {
+--    capabilities = capabilities,
+--    on_attach = on_attach,
+--    settings = {},
+--    filetypes = {},
+--  }
+--end
+
+-- Rust
+if vim.fn.executable('rust-analyzer') == 1 then
+  require('lspconfig')['rust_analyzer'].setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {},
+    filetypes = {},
+  }
+end
+
+-- Haskell
+if vim.fn.executable('haskell-language-server-wrapper') == 1 then
+  require('lspconfig')['hls'].setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {},
+    filetypes = { 'haskell', 'lhaskell', 'cabal' },
+  }
+end
+
 -- Ensure the servers above are installed
-local mason_lspconfig = require 'mason-lspconfig'
+-- local mason_lspconfig = require 'mason-lspconfig'
 
-mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers),
-}
-
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
-    }
-  end
-}
+-- mason_lspconfig.setup {
+--   ensure_installed = vim.tbl_keys(servers),
+-- }
+--
+-- mason_lspconfig.setup_handlers {
+--   function(server_name)
+--     require('lspconfig')[server_name].setup {
+--       capabilities = capabilities,
+--       on_attach = on_attach,
+--       settings = servers[server_name],
+--       filetypes = (servers[server_name] or {}).filetypes,
+--     }
+--   end
+-- }
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`

@@ -366,6 +366,19 @@ in
     vivid
     xfce.thunar
     bat
+    python3
+    poetry
+    # Rust
+    rustc
+    cargo
+    rustfmt
+    clippy
+    # Scala
+    scala
+    sbt
+    scala-cli
+    scalafmt
+    ammonite
   ];
 
   # Allow unfree packages

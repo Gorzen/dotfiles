@@ -303,6 +303,16 @@ in
     platformTheme = "gtk2";
   };
 
+  # Run unpatched dynamic binaries on NixOS.
+  # Precompiled binaries that were not created for NixOS regularly use /lib64/ld-linux-x86-64.so.2
+  # As a hardcoded link loader to interpret binary files
+  # https://github.com/Mic92/nix-ld
+  #programs.nix-ld.enable = true;
+  # patchelf https://nixos.wiki/wiki/Packaging/Binaries
+
+  # Download openjdk and set JAVA_HOME (some bins installed through coursier expect java to be in the PATH)
+  #programs.java.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [

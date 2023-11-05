@@ -19,3 +19,15 @@ Use this alias to upgrade:
 alias firmware-update='fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update'
 ```
 
+## NeoVim
+
+### Lazy
+
+In nvim use the `Lazy` command to update packages
+
+### nvim-metals
+
+In nvim use the `MetalsUpdate` command to update metals
+
+Note: nvim-metals needs to be enabled (launch nvim in a folder with scala files)
+

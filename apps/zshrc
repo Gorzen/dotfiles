@@ -74,6 +74,7 @@ alias g='git'
 alias cfg='cd /etc/nixos'
 alias cfgu='cd /etc/nixos/apps'
 alias firmware-update='fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update'
+alias nix-shell='nix-shell --command zsh'
 alias nix-store-repair='sudo nix-store --verify --check-contents --repair'
 alias nix-store-optimize='nix-store --optimize'
 alias nix-gc='sudo nix-collect-garbage --delete-old'
@@ -134,9 +135,16 @@ function _my_git_prompt {
   unset MY_GIT_DIFF_REMOTE
 }
 
+if [ -z "$IN_NIX_SHELL" ]; then
+	PROMPT_NIX_SHELL=""
+else
+	PROMPT_NIX_SHELL="(nix-shell) "
+fi
+
 # Don't show username or hostname
 PROMPT_PATH="%{$fg[yellow]%}%~%{$reset_color%}"
 PROMPT_BACKGROUND_JOBS="%(1j. %{$fg[magenta]%}%j%{$reset_color%}.)"
-export PROMPT="$PROMPT_PATH\$(_my_git_prompt)$PROMPT_BACKGROUND_JOBS%{$reset_color%} %% "
+export PROMPT="$PROMPT_NIX_SHELL$PROMPT_PATH\$(_my_git_prompt)$PROMPT_BACKGROUND_JOBS%{$reset_color%} %% "
+unset PROMPT_NIX_SHELL
 unset PROMPT_PATH
 unset PROMPT_BACKGROUND_JOBS

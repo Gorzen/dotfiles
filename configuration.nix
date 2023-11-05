@@ -368,6 +368,7 @@ in
     ripgrep
     fd
     tree-sitter
+    just
 
     # Development
     ## Nix

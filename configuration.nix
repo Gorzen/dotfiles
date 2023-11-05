@@ -312,7 +312,7 @@ in
   #programs.nix-ld.enable = true;
   # patchelf https://nixos.wiki/wiki/Packaging/Binaries
 
-  # Download openjdk and set JAVA_HOME (coursier expect java to be in the PATH)
+  # Download openjdk and set JAVA_HOME (coursier expects java to be in the PATH)
   programs.java.enable = true;
 
   # List packages installed in system profile. To search, run:
@@ -326,7 +326,6 @@ in
     wezterm
     brave
     rofi
-    vscodium
     nnn
     feh
     nsxiv
@@ -397,7 +396,7 @@ in
     ghc
     haskell-language-server
     ## JavaScript
-    nodejs
+    nodejs # Note: Some programs (for example, nvim plugins) expect npm to be in the PATH
   ];
 
   # Allow unfree packages

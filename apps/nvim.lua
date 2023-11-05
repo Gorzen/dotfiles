@@ -48,6 +48,15 @@ require('lazy').setup({
     'nvim-telescope/telescope.nvim', tag = '0.1.4',
     dependencies = { 'nvim-lua/plenary.nvim' },
   },
+
+  {
+    'romgrk/barbar.nvim',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+    },
+    init = function() vim.g.barbar_auto_setup = false end,
+    version = '^1.0.0', -- optional: only update when a new 1.x version is released
+  },
 }, {})
 
 -- Color scheme
@@ -76,6 +85,10 @@ require('nvim-treesitter.configs').setup({
 
 -- Git signs
 require('gitsigns').setup()
+
+-- Barbar
+require('barbar').setup()
+vim.keymap.set('n', '<C-b>', '<Cmd>BufferPick<CR>', { desc = 'Magic buffer-picking mode' })
 
 -- Telescope
 require('telescope').setup({})

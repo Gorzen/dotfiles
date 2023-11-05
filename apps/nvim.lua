@@ -192,6 +192,8 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open float
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- [[ Configure LSP ]]
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
@@ -240,19 +242,25 @@ local on_attach = function(_, bufnr)
   end, '[W]orkspace [L]ist Folders')
 end
 
-require("lspconfig").nil_ls.setup { on_attach = on_attach }
-require("lspconfig").lua_ls.setup { on_attach = on_attach }
-require("lspconfig").rust_analyzer.setup { on_attach = on_attach }
-require("lspconfig").pyright.setup { on_attach = on_attach }
-require("lspconfig").hls.setup { on_attach = on_attach }
+-- Nix
+require("lspconfig").nil_ls.setup { on_attach = on_attach, capabilities = capabilities }
+-- Lua
+require("lspconfig").lua_ls.setup { on_attach = on_attach, capabilities = capabilities }
+-- Rust
+require("lspconfig").rust_analyzer.setup { on_attach = on_attach, capabilities = capabilities }
+-- Python
+require("lspconfig").pyright.setup { on_attach = on_attach, capabilities = capabilities }
+-- Haskell
+require("lspconfig").hls.setup { on_attach = on_attach, capabilities = capabilities }
 
--- Metals
+-- Scala with Metals
 local metals_config = require("metals").bare_config()
 metals_config.init_options.statusBarProvider = "on"
 metals_config.settings = {
   showImplicitArguments = true,
 }
 metals_config.on_attach = on_attach
+metals_config.capabilities = capabilities
 
 local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {

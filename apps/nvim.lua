@@ -88,7 +88,9 @@ require('gitsigns').setup()
 
 -- Barbar
 require('barbar').setup()
-vim.keymap.set('n', '<C-b>', '<Cmd>BufferPick<CR>', { desc = 'Magic buffer-picking mode' })
+vim.keymap.set('n', '<leader>bb', '<Cmd>BufferPick<CR>', { desc = 'Magic [B]uffer-picking mode' })
+vim.keymap.set('n', '<leader>bn', '<Cmd>BufferNext<CR>', { desc = '[B]uffer[N]ext' })
+vim.keymap.set('n', '<leader>bp', '<Cmd>BufferPrevious<CR>', { desc = '[B]uffer[P]revious' })
 
 -- Telescope
 require('telescope').setup({})

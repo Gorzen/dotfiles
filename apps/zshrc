@@ -89,10 +89,10 @@ function _my_git_prompt {
   MY_GIT_DIFF_REMOTE=""
 
   # Check if in a git repository
-  if MY_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+  if MY_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD -- 2> /dev/null); then
     if [ "$MY_GIT_BRANCH" = 'HEAD' ]; then
       # Not on a branch, probably detached head. Get ref hash
-      MY_GIT_BRANCH=$(git rev-parse --short HEAD 2> /dev/null)
+      MY_GIT_BRANCH=$(git rev-parse --short HEAD -- 2> /dev/null)
     fi
 
     MY_GIT_BRANCH=" %{$fg[blue]%}@%{$reset_color%} %{$fg[green]%}$MY_GIT_BRANCH%{$reset_color%}"

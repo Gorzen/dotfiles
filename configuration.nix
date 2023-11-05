@@ -312,8 +312,8 @@ in
   #programs.nix-ld.enable = true;
   # patchelf https://nixos.wiki/wiki/Packaging/Binaries
 
-  # Download openjdk and set JAVA_HOME (some bins installed through coursier expect java to be in the PATH)
-  #programs.java.enable = true;
+  # Download openjdk and set JAVA_HOME (coursier expect java to be in the PATH)
+  programs.java.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -336,10 +336,6 @@ in
     libnotify
     ncurses
     curl
-    ghc
-    cabal-install
-    stack
-    haskell-language-server
     acpilight
     pavucontrol
     neofetch
@@ -350,6 +346,7 @@ in
     myVars.themes.icon.pkg
     myVars.themes.cursor.pkg
     xmobar
+    xclip
     networkmanagerapplet
     trayer
     killall
@@ -368,19 +365,38 @@ in
     vivid
     xfce.thunar
     bat
+    ripgrep
+    fd
+    tree-sitter
+
+    # Development
+    ## Nix
+    nil
+    ## Lua
+    lua
+    lua-language-server
+    ## Python
     python3
-    poetry
-    # Rust
+    nodePackages.pyright
+    ## Scala
+    scala
+    sbt
+    metals
+    scalafmt
+    scala-cli
+    ammonite
+    coursier # Coursier does not work well in NixOS but nvim-metals uses it
+    ## Rust
     rustc
     cargo
     rustfmt
     clippy
-    # Scala
-    scala
-    sbt
-    scala-cli
-    scalafmt
-    ammonite
+    rust-analyzer
+    ## Haskell
+    ghc
+    haskell-language-server
+    ## JavaScript
+    nodejs
   ];
 
   # Allow unfree packages

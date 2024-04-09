@@ -259,6 +259,10 @@ in
   # Use bluman to manage bluetooth
   services.blueman.enable = true;
 
+  # Enable firmware
+  hardware.enableAllFirmware = true;
+  nixpkgs.config.allowUnfree = true;
+
   # Users in group 'video' can change brightness
   services.udev.extraRules = ''
     SUBSYSTEM=="backlight", ACTION=="add", \
@@ -399,7 +403,7 @@ in
     nodejs # Note: Some programs (for example, nvim plugins) expect npm to be in the PATH
   ];
 
-  # Allow unfree packages
+  # Allow unfree packages (not strictly need if nixpkgs.config.allowUnfree is enabled)
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "spotify"
   ];

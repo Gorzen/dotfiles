@@ -372,6 +372,7 @@ in
     fd
     tree-sitter
     just
+    ani-cli
     sof-firmware
 
     # Development

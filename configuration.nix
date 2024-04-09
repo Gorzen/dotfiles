@@ -372,6 +372,7 @@ in
     fd
     tree-sitter
     just
+    sof-firmware
 
     # Development
     ## Nix

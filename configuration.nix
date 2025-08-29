@@ -120,18 +120,36 @@ in
     KODI_DATA="${XDG_DATA_HOME}/kodi";
   };
 
+  # Enable touchpad support (enabled default in most desktopManager).
+  services.libinput.enable = true;
+  services.libinput.touchpad.naturalScrolling = true;
+
+  # Configure the display manager - sddm
+  services.displayManager.sddm = {
+    enable = true;
+
+    theme = "${pkgs.fetchFromGitHub {
+      owner = "Gorzen";
+      repo = "sddm-chili";
+      rev = "dee5e3208a03c299d23a3a52c23327e4b1748786";
+      hash = "sha256-AicCwcVd+7cv1HjJUs7zsJvl/R71HQdeTNLKhh6GtLg=";
+    }}";
+
+    faceIcon = {
+      enable = true;
+      userName = myVars.userName;
+      path = ./images/face-icon.png;
+    };
+  };
+
   # Configure xserver
   # Enable the X11 windowing system. In xorg.conf.d
   services.xserver = {
     enable = true;
-    layout = "ch";
-    xkbVariant = "fr";
-    xkbModel = "latitude";
-    xkbOptions = "eurosign:e,caps:escape";
-
-    # Enable touchpad support (enabled default in most desktopManager).
-    libinput.enable = true;
-    libinput.touchpad.naturalScrolling = true;
+    xkb.layout = "ch";
+    xkb.variant = "fr";
+    xkb.model = "latitude";
+    xkb.options = "eurosign:e,caps:escape";
 
     # Adds the following configurations to xorg.conf. Warning: Loaded after xorg.conf.d
     inputClassSections = [ ''
@@ -139,24 +157,6 @@ in
       MatchIsKeyboard  "on"
       Option           "AutoRepeat" "200 40"
     '' ];
-
-    # Configure the display manager - sddm
-    displayManager.sddm = {
-      enable = true;
-
-      theme = "${pkgs.fetchFromGitHub {
-        owner = "Gorzen";
-        repo = "sddm-chili";
-        rev = "dee5e3208a03c299d23a3a52c23327e4b1748786";
-        hash = "sha256-AicCwcVd+7cv1HjJUs7zsJvl/R71HQdeTNLKhh6GtLg=";
-      }}";
-
-      faceIcon = {
-        enable = true;
-        userName = myVars.userName;
-        path = ./images/face-icon.png;
-      };
-    };
 
     # Configure the window manager - XMonad
     windowManager.xmonad = {
@@ -187,6 +187,9 @@ in
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
+    # Use behaviour from < 1.17 (uses first portal implementation found)
+    config.common.default = "*";
   };
 
   # Should be enabled by default, but enable XDG Icon Theme spefication (themes in /usr/share/icons)
@@ -205,7 +208,7 @@ in
   programs.dconf.enable = true;
 
   # Enable GPU acceleration
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
 
   # https://nixos.wiki/wiki/Accelerated_Video_Playback
           #nixpkgs.config.packageOverrides = pkgs: {
@@ -228,11 +231,11 @@ in
   };
 
   fonts = {
-    enableDefaultFonts = true;
-    fonts = with pkgs; [
+    enableDefaultPackages = true;
+    packages = with pkgs; [
       noto-fonts
       noto-fonts-emoji
-      nerdfonts
+      # nerdfonts (package was changed, separate package for each nerd font)
       fira-code
       fira-code-symbols
     ];
@@ -249,9 +252,17 @@ in
   # Enable CUPS to print documents
   #services.printing.enable = true;
 
-  # Enable sound and pulseaudio
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  # Use pipewire
+  # rtkit (optional, recommended) allows Pipewire to use the realtime scheduler for increased performance.
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true; # if not already enabled
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment the following
+    #jack.enable = true;
+  };
 
   # Enable bluetooth (uses bluez)
   hardware.bluetooth.enable = true;
@@ -383,7 +394,6 @@ in
     lua-language-server
     ## Python
     python3
-    nodePackages.pyright
     ## Scala
     scala
     sbt

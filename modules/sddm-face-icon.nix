@@ -6,7 +6,7 @@ with lib;
 
 let
 
-  cfg = config.services.xserver.displayManager.sddm.faceIcon;
+  cfg = config.services.displayManager.sddm.faceIcon;
 
   # This will create a simple derivation that runs the given command
   # https://nixos.org/manual/nixpkgs/stable/#trivial-builder-runCommand
@@ -22,7 +22,7 @@ in
 
 {
   options = {
-    services.xserver.displayManager.sddm.faceIcon = {
+    services.displayManager.sddm.faceIcon = {
       enable = mkOption {
         type = types.bool;
         default = false;
